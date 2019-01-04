@@ -11,13 +11,24 @@
         android:id="@+id/titlt_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="活动主题" />
+        android:hint="活动主题"
+        android:background="@drawable/edit_shape"
+        android:layout_margin="10dp"/>
 
     <EditText
         android:id="@+id/content_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="活动内容" />
+        android:hint="活动内容"
+        android:background="@drawable/edit_shape"
+        android:layout_margin="10dp"
+        android:scrollbars="vertical"
+        android:gravity="top"
+        android:singleLine="false"
+        android:minLines="3"
+        android:maxLines="3"
+        android:lineSpacingExtra="3dp"
+        android:lineSpacingMultiplier="1.2"/>
 
     <Button
         android:id="@+id/submit_btn"
