@@ -1,6 +1,7 @@
 package nju.joytrip.activity;
 
 import android.content.Intent;
+import android.os.Trace;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 import nju.joytrip.R;
 import nju.joytrip.entity.User;
@@ -73,8 +75,32 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data != null) {
+            boolean signState = data.getExtras().getBoolean("signState");
+            if (signState == true) {
+                String t_name = data.getExtras().getString("username");
+                String t_password = data.getExtras().getString("password");
+                BmobUser.loginByAccount(t_name, t_password, new LogInListener<User>() {
+                    @Override
+                    public void done(User user, BmobException e) {
+                        if (e == null) {
+                            Toast.makeText(LoginActivity.this, "登陆成功", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            LoginActivity.this.startActivity(intent);
+                            LoginActivity.this.finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        }
     }
 }
