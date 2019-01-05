@@ -21,4 +21,5 @@ public class Event extends BmobObject {
     public void setContent(String content) {
         this.content = content;
     }
+
 }
