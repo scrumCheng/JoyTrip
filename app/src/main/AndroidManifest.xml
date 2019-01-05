@@ -25,13 +25,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.EventPublish" />
-<<<<<<< HEAD
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SignUpActivity"></activity>
-=======
         <activity
             android:name=".activity.DetailActivity"></activity>
->>>>>>> pr/4
     </application>
 
 </manifest>
