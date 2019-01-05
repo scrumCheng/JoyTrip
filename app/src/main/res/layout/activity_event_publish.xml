@@ -11,6 +11,7 @@
         android:id="@+id/titlt_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:hint="活动主题"
         android:background="@drawable/edit_shape"
         android:layout_margin="10dp"/>
@@ -27,8 +28,7 @@
         android:singleLine="false"
         android:minLines="3"
         android:maxLines="3"
-        android:lineSpacingExtra="3dp"
-        android:lineSpacingMultiplier="1.2"/>
+        android:lineSpacingExtra="3dp" />
 
     <Button
         android:id="@+id/submit_btn"

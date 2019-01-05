@@ -1,7 +1,10 @@
 package nju.joytrip.activity;
 
+import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,8 +21,10 @@ public class EventPublish extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bmob.initialize(this, "f6fbdb11a6a945a3382bf9225de95646");
+        setTitle("发布活动");
         setContentView(R.layout.activity_event_publish);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Button submit_btn = (Button) findViewById(R.id.submit_btn);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,7 +40,9 @@ public class EventPublish extends AppCompatActivity {
                     @Override
                     public void done(String s, BmobException e) {
                         if (e == null) {
-                            Toast.makeText(getApplication(), s, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EventPublish.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -44,4 +51,15 @@ public class EventPublish extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
