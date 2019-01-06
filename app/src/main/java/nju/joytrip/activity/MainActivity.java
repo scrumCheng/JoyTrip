@@ -4,6 +4,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import nju.joytrip.R;
+import nju.joytrip.entity.User;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Bmob.initialize(this, "f6fbdb11a6a945a3382bf9225de95646");
         setContentView(R.layout.activity_main);
+        User user = BmobUser.getCurrentUser(User.class);
+        Log.i("username",user.getUsername());
         initViews();
         setTabSelection(0);
     }
