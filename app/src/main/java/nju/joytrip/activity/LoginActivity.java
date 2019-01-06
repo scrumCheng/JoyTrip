@@ -4,14 +4,20 @@ import android.content.Intent;
 import android.os.Trace;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 import nju.joytrip.R;
@@ -29,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //初始化Bmob
         Bmob.initialize(this, "f6fbdb11a6a945a3382bf9225de95646");
+        //Bmob.initialize(this, "5e67ccbfcfd54f76519eb3482ca95239");
         //绑定控件
         button_login = (Button) findViewById(R.id.button_login);
         button_signUp = (Button) findViewById(R.id.button_signUp);
@@ -41,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             this.startActivity(intent);
             this.finish();
         }
+
         //监听登录按钮
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
