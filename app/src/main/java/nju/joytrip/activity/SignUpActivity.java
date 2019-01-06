@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
                     final User user = new User();
                     user.setUsername(t_name);
                     user.setPassword(t_pwd);
+                    user.setUserPic("http://bmob-cdn-23312.b0.upaiyun.com/2019/01/06/5ef76d8d40343de7803494a7011d5f11.jpg");
                     user.signUp(new SaveListener<User>() {
                         @Override
                         public void done(User user, BmobException e) {
