@@ -17,6 +17,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
@@ -64,11 +65,26 @@ public class LoginActivity extends AppCompatActivity {
                     user.login(new SaveListener<User>() {
                         public void done(User bmobUser, BmobException e){
                             if (e == null){
-                                User user = BmobUser.getCurrentUser(User.class);
                                 Toast.makeText(LoginActivity.this,"登陆成功",Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 LoginActivity.this.startActivity(intent);
                                 LoginActivity.this.finish();
+                                BmobFile default_user = new BmobFile("default_user.jpg","","http://bmob-cdn-23312.b0.upaiyun.com/2019/01/06/5ef76d8d40343de7803494a7011d5f11.jpg");
+                                default_user.download(new DownloadFileListener() {
+                                    @Override
+                                    public void done(String s, BmobException e) {
+                                        if(e == null){
+                                            Log.i("LocalPic路径",s);
+                                        }else {
+                                            Toast.makeText(LoginActivity.this,"下载头像失败",Toast.LENGTH_LONG);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onProgress(Integer integer, long l) {
+
+                                    }
+                                });
                             }else {
                                 Toast.makeText(LoginActivity.this,"登陆失败",Toast.LENGTH_LONG).show();
                             }
