@@ -22,8 +22,8 @@
 
                 <ImageView
                     android:id="@+id/detail_pic"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp" />
+                    android:layout_width="52dp"
+                    android:layout_height="52dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,7 +54,8 @@
             <TextView
                 android:id="@+id/detail_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                style="@style/event_content"/>
 
         </LinearLayout>
 
@@ -64,17 +65,37 @@
         android:layout_width="match_parent"
         android:layout_height="4px"
         android:background="#CCCCCC"></View>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="15dp"
         android:gravity="bottom">
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="加入活动"/>
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
 
-    </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:text="加入活动"
+                android:background="@drawable/login_button_shape"
+                android:layout_marginRight="25dp"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="22sp"
+                android:text="收藏活动"
+                android:background="@drawable/login_button_shape"
+                android:layout_marginLeft="25dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
