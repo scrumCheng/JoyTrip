@@ -43,6 +43,24 @@ public class MineFragment extends Fragment {
         imageView_portrait = view.findViewById(R.id.mine_portrait);
         textView_nickName = view.findViewById(R.id.mine_nickname);
 
+<<<<<<< HEAD
+=======
+        Glide.with(this)
+                .load(R.mipmap.background)
+                .apply(bitmapTransform(new BlurTransformation(3, 4)))
+                .into(imageView_portraitBackgroud);
+
+        Glide.with(this)
+                .load(user.getUserPic())
+                .apply(bitmapTransform(new CropCircleTransformation()))
+                .into(imageView_portrait);
+
+        if (user.getNickname() != null) {
+            textView_nickName.setText(user.getNickname());
+        } else {
+            textView_nickName.setText(user.getUsername());
+        }
+>>>>>>> pr/9
 
         return view;
     }
