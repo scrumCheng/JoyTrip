@@ -26,9 +26,11 @@
         </activity>
         <activity android:name=".activity.EventPublish" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SignUpActivity"></activity>
-        <activity
-            android:name=".activity.DetailActivity"></activity>
+        <activity android:name=".activity.SignUpActivity" />
+        <activity android:name=".activity.DetailActivity" />
+        <activity android:name=".activity.CheckWordShare" />
+        <activity android:name=".activity.WordSharePublish" />
+        <activity android:name=".activity.WShareDetail"></activity>
     </application>
 
 </manifest>
