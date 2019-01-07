@@ -15,12 +15,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
-import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 import nju.joytrip.R;
 import nju.joytrip.entity.User;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 /**
  * <p>Title: MineFragment</p>
@@ -46,20 +43,6 @@ public class MineFragment extends Fragment {
         imageView_portrait = view.findViewById(R.id.mine_portrait);
         textView_nickName = view.findViewById(R.id.mine_nickname);
 
-        Glide.with(this)
-                .load(R.mipmap.background)
-                .apply(bitmapTransform(new BlurTransformation(3, 4)))
-                .into(imageView_portraitBackgroud);
-
-        Glide.with(this)
-                .load(user.getUserPic())
-                .apply(bitmapTransform(new CropCircleTransformation()))
-                .into(imageView_portrait);
-        if (user.getNickname() != null) {
-            textView_nickName.setText(user.getNickname());
-        } else {
-            textView_nickName.setText(user.getUsername());
-        }
 
         return view;
     }
