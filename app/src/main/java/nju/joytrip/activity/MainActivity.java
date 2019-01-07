@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mineLayout = (LinearLayout)findViewById(R.id.mine_layout);
         mineImg = (ImageView)findViewById(R.id.mine_img);
         mineLayout.setOnClickListener(this);
-
     }
 
     @Override
