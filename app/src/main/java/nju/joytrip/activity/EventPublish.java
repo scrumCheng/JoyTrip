@@ -11,10 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import nju.joytrip.R;
 import nju.joytrip.entity.Event;
+import nju.joytrip.entity.User;
 
 public class EventPublish extends AppCompatActivity {
 
@@ -34,8 +36,10 @@ public class EventPublish extends AppCompatActivity {
                 String title = title_text.getText().toString();
                 String content = content_text.getText().toString();
                 Event event = new Event();
+                User user = BmobUser.getCurrentUser(User.class);
                 event.setTitle(title);
                 event.setContent(content);
+                event.setUser(user);
                 event.save(new SaveListener<String>() {
                     @Override
                     public void done(String s, BmobException e) {

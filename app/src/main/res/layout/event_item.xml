@@ -5,11 +5,41 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/item_pic"
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/event_name"/>
+            <TextView
+                android:id="@+id/item_createTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/event_time"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        style="@style/event_title"/>
 
     <TextView
         android:id="@+id/item_content"
@@ -17,10 +47,5 @@
         android:layout_height="wrap_content"
         android:minLines="1"
         android:maxLines="2"/>
-
-    <TextView
-        android:id="@+id/item_createTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
 </LinearLayout>
