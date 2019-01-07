@@ -55,6 +55,7 @@ public class MineFragment extends Fragment {
                 .load(user.getUserPic())
                 .apply(bitmapTransform(new CropCircleTransformation()))
                 .into(imageView_portrait);
+
         if (user.getNickname() != null) {
             textView_nickName.setText(user.getNickname());
         } else {
