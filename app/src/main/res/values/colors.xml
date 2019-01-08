@@ -7,4 +7,9 @@
     <color name="text_active">#F0983D</color>
     <color name="bg_fragment">#4D4D4D</color>
     <color name="colorMineFragmentUsername">#FFFFFF</color>
+
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#59B29C</color>
+    <color name="date_picker_text_dark">#333333</color>
 </resources>
