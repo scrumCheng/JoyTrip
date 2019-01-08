@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="用户注册"
+        android:text=""
         android:gravity="center"
         android:textSize="28sp"
         android:layout_marginBottom="20dp"
