@@ -2,11 +2,10 @@ package nju.joytrip.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,29 +17,25 @@ import android.widget.SimpleAdapter;
 import android.widget.SimpleAdapter.ViewBinder;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.activity.DetailActivity;
 import nju.joytrip.activity.EventPublish;
 import nju.joytrip.entity.Event;
 import nju.joytrip.entity.User;
-import nju.joytrip.utils.GlideCircleTransform;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class HomeFragment extends Fragment {
     private SimpleAdapter adapter;
@@ -81,13 +76,12 @@ public class HomeFragment extends Fragment {
                         }
                         final HashMap mHashMap = new HashMap<>();
                         Glide.with(HomeFragment.this)
-                                .load(userPic)
                                 .asBitmap()
-                                .placeholder(R.mipmap.default_user)
-                                .transform(new GlideCircleTransform(getActivity()))
+                                .load(userPic)
+                                .apply(bitmapTransform(new CropCircleTransformation()))
                                 .into(new SimpleTarget<Bitmap>() {
                                     @Override
-                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                                         mHashMap.put("userPic", resource);
                                     }
                                 });

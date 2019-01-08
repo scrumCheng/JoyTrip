@@ -1,7 +1,5 @@
 package nju.joytrip.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,20 +8,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.entity.Event;
 import nju.joytrip.entity.User;
-import nju.joytrip.utils.GlideCircleTransform;
+
+import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -62,8 +56,9 @@ public class DetailActivity extends AppCompatActivity {
                     }
                     ImageView iv = (ImageView)findViewById(R.id.detail_pic);
                     Glide.with(DetailActivity.this)
+                            .asBitmap()
                             .load(userPic)
-                            .transform(new GlideCircleTransform(DetailActivity.this))
+                            .apply(bitmapTransform(new CropCircleTransformation()))
                             .into(iv);
                 }
             }
