@@ -6,4 +6,5 @@
     <color name="text_inactive">#9B9B9B</color>
     <color name="text_active">#F0983D</color>
     <color name="bg_fragment">#4D4D4D</color>
+    <color name="colorMineFragmentUsername">#FFFFFF</color>
 </resources>
