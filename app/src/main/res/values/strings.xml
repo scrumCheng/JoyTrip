@@ -8,4 +8,7 @@
     <string name="share_title">分享主题</string>
     <string name="share_content">分享内容</string>
     <string name="share">分享</string>
+    <string name="mine_fragment_mypublished">我的发布</string>
+    <string name="mine_fragment_myfollowed">我的加入</string>
+    <string name="mine_fragment_mynotification">通知</string>
 </resources>
