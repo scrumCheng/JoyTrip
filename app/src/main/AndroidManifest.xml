@@ -30,7 +30,8 @@
         <activity android:name=".activity.DetailActivity" />
         <activity android:name=".activity.CheckWordShare" />
         <activity android:name=".activity.WordSharePublish" />
-        <activity android:name=".activity.WShareDetail"></activity>
+        <activity android:name=".activity.WShareDetail" />
+        <activity android:name=".activity.UserInformationActivity"></activity>
     </application>
 
 </manifest>
