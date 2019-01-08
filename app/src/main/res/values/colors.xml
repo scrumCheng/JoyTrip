@@ -7,5 +7,5 @@
     <color name="text_active">#F0983D</color>
     <color name="bg_fragment">#4D4D4D</color>
     <color name="colorMineFragmentPureWhite">#FFFFFF</color>
-    <color name="colorMineFragmentBackground">#dedede</color>
+    <color name="colorPageGrayBackground">#dedede</color>
 </resources>
