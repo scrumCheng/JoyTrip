@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.HomeFragment">
-    <ImageView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    tools:context=".activity.CheckWordShare">
+
     <Button
-        android:id="@+id/publish_btn"
+        android:id="@+id/share_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="发布活动"/>
+        android:text="@string/word_share_btn"/>
 
     <ListView
-        android:id="@+id/item_list"
+        android:id="@+id/share_item_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ListView>
+
 </LinearLayout>

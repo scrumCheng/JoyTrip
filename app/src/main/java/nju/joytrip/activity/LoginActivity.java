@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -26,7 +27,7 @@ import nju.joytrip.entity.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button button_signUp;
+    private TextView textView_signUp;
     private Button button_login;
     private EditText editText_username;
     private EditText editText_password;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         //Bmob.initialize(this, "5e67ccbfcfd54f76519eb3482ca95239");
         //绑定控件
         button_login = (Button) findViewById(R.id.button_login);
-        button_signUp = (Button) findViewById(R.id.button_signUp);
+        textView_signUp = findViewById(R.id.textView_signUp);
         editText_username = (EditText) findViewById(R.id.editText_username);
         editText_password = (EditText) findViewById(R.id.editText_password);
 
@@ -95,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //监听注册按钮
-        button_signUp.setOnClickListener(new View.OnClickListener() {
+        textView_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this,SignUpActivity.class);
