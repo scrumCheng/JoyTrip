@@ -24,7 +24,9 @@ android {
     applicationVariants.all{
         variant ->
             variant.outputs.all{
-                output -> output.outputFileName = "JoyTrip-"+buildType.name+"-"+new Date().format("yyyy-MM-dd-hh-mm-dd",TimeZone.getTimeZone("UTC"))+".apk"
+                output ->
+                    output.outputDirectory = new File("C:\\AndroidApp\\JoyTripRelease");
+                    output.outputFileName = "JoyTrip-"+buildType.name+"-"+new Date().format("yyyy-MM-dd-hh-mm-dd",TimeZone.getTimeZone("UTC"))+".apk"
             }
     }
 }
