@@ -2,7 +2,7 @@ package nju.joytrip.entity;
 
 import cn.bmob.v3.BmobObject;
 
-public class E_WordShare extends BmobObject {
+public class PWShare extends BmobObject {
     private String title;
     private String content;
     private User user;
@@ -14,6 +14,7 @@ public class E_WordShare extends BmobObject {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     public String getTitle(){
         return title;
@@ -30,6 +31,4 @@ public class E_WordShare extends BmobObject {
     public void setContent(String content) {
         this.content = content;
     }
-
-
 }

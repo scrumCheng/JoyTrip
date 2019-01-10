@@ -28,10 +28,16 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.DetailActivity" />
+
+        <!-- <activity android:name=".activity.CheckWordShare" /> -->
+        <activity android:name=".activity.PicWordShare" />
+        <activity android:name=".activity.ShareDetail" />
+
         <activity android:name=".activity.CheckWordShare" />
         <activity android:name=".activity.WordSharePublish" />
         <activity android:name=".activity.WShareDetail" />
         <activity android:name=".activity.UserInformationActivity"></activity>
+
     </application>
 
 </manifest>

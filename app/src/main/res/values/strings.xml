@@ -8,9 +8,13 @@
     <string name="share_title">分享主题</string>
     <string name="share_content">分享内容</string>
     <string name="share">分享</string>
+
     <string name="mine_fragment_mypublished">我的发布</string>
     <string name="mine_fragment_myfollowed">我的加入</string>
     <string name="mine_fragment_mynotification">通知</string>
+    <string name="word_share">文字分享</string>
+    <string name="pic_share">图片分享</string>
+    <string name="video_share">视频分享</string>
     <string name="user_information_activity_portrait">头像</string>
     <string name="user_information_activity_nickname">昵称</string>
     <string name="user_information_activity_userid">用户ID</string>
