@@ -1,5 +1,6 @@
 package nju.joytrip.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import cn.bmob.v3.BmobUser;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
+import nju.joytrip.activity.UserInformationActivity;
 import nju.joytrip.entity.User;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -72,6 +74,14 @@ public class MineFragment extends Fragment {
         } else {
             textView_nickName.setText(user.getUsername());
         }
+
+        imageView_portrait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserInformationActivity.class);
+                startActivity(intent);
+            }
+        });
 
         myPublished.setOnClickListener(new View.OnClickListener() {
             @Override
