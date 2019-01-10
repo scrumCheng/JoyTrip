@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 homeImg.setImageResource(R.mipmap.indicator_home_active);
                 break;
             case 1:
+
                 if (updatesFragment == null){
                     updatesFragment = new UpdatesFragment();
                     transaction.add(R.id.fragment_content, updatesFragment);
