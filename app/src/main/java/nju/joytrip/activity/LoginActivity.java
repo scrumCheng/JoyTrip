@@ -2,6 +2,7 @@ package nju.joytrip.activity;
 
 import android.content.Intent;
 import android.os.Trace;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //初始化Bmob
         Bmob.initialize(this, "f6fbdb11a6a945a3382bf9225de95646");
+
+        setTitle("登录");
+
         //Bmob.initialize(this, "5e67ccbfcfd54f76519eb3482ca95239");
         //绑定控件
         button_login = (Button) findViewById(R.id.button_login);

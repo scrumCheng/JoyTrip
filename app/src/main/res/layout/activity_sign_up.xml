@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".activity.SignUpActivity"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=""
+        android:gravity="center"
+        android:textSize="28sp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -14,6 +23,9 @@
         android:layout_weight="1"
         android:id="@+id/editText_username"
         android:hint="用户名"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:inputType="text"
         android:background="@drawable/edit_shape"/>
 
@@ -22,6 +34,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/editText_password"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:inputType="textPassword"
         android:hint="密码"
         android:background="@drawable/edit_shape"/>
@@ -33,12 +48,27 @@
         android:id="@+id/editText_confirmPassword"
         android:inputType="textPassword"
         android:hint="确认密码"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/edit_shape"/>
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"/>
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:layout_gravity="center"
         android:text="注册并登录"
-        android:id="@+id/button_sign"/>
+        android:id="@+id/button_sign"
+        android:background="@drawable/login_button_shape"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.2"/>
 
 </LinearLayout>

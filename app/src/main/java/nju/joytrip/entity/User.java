@@ -8,6 +8,7 @@ public class User extends BmobUser {
     private String nickName;
     private String userPic;
     private String localPic;
+    private String gender;
 
     public String getNickname(){
         return nickName;
@@ -34,4 +35,12 @@ public class User extends BmobUser {
         this.localPic = path;
     }
     */
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

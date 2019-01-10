@@ -1,3 +1,6 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 
 android {
@@ -16,6 +19,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    applicationVariants.all{
+        variant ->
+            variant.outputs.all{
+                variant.getPackageApplication().outputDirectory = new File("C:/AndroidApp/JoyTripRelease");
+                outputFileName = "JoyTrip-"+buildType.name+"-"+new Date().format("yyyy-MM-dd-hh-mm-dd",TimeZone.getTimeZone("UTC"))+".apk"
+            }
     }
 }
 
@@ -39,5 +50,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.5.0'
     annotationProcessor 'com.github.bumptech.glide:glide:4.5.0'
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
-    
+
 }
