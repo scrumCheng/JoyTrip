@@ -26,7 +26,10 @@ import cn.bmob.v3.BmobUser;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
+import nju.joytrip.activity.EventPublish;
+import nju.joytrip.activity.NoticeActivity;
 import nju.joytrip.activity.UserInformationActivity;
+import nju.joytrip.entity.Notice;
 import nju.joytrip.entity.User;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -100,7 +103,8 @@ public class MineFragment extends Fragment {
         myNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "通知功能即将上线！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                startActivity(intent);
             }
         });
 

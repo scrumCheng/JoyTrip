@@ -33,12 +33,8 @@
         <!-- <activity android:name=".activity.CheckWordShare" /> -->
         <activity android:name=".activity.PicWordShare" />
         <activity android:name=".activity.ShareDetail" />
-
-        <activity android:name=".activity.CheckWordShare" />
-        <activity android:name=".activity.WordSharePublish" />
-        <activity android:name=".activity.WShareDetail" />
-        <activity android:name=".activity.UserInformationActivity"></activity>
-
+        <activity android:name=".activity.UserInformationActivity" />
+        <activity android:name=".activity.NoticeActivity"></activity>
     </application>
 
 </manifest>
