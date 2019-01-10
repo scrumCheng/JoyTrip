@@ -24,7 +24,9 @@
                 android:id="@+id/item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/event_name"/>
+                style="@style/event_name"
+                android:text="20sp"
+                android:textColor="#000000"/>
             <TextView
                 android:id="@+id/item_createTime"
                 android:layout_width="wrap_content"
@@ -39,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:text="20sp"
         style="@style/event_title"/>
 
     <TextView
@@ -47,6 +50,7 @@
         android:layout_height="wrap_content"
         android:minLines="1"
         android:maxLines="2"
-        style="@style/event_content"/>
+        style="@style/event_content"
+        android:textSize="15sp"/>
 
 </LinearLayout>
