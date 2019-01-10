@@ -15,6 +15,7 @@
     <string name="word_share">文字分享</string>
     <string name="pic_share">图片分享</string>
     <string name="video_share">视频分享</string>
+    <string name="publish_event">发布</string>
     <string name="user_information_activity_portrait">头像</string>
     <string name="user_information_activity_nickname">昵称</string>
     <string name="user_information_activity_userid">用户ID</string>
