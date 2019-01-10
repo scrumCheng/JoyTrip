@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="1.1"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="right|center_vertical"
         android:paddingRight="10dp"
@@ -25,7 +25,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
@@ -37,7 +37,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
@@ -46,12 +46,15 @@
         android:inputType="textPassword"
         android:hint="密码"
         android:background="@drawable/edit_shape"/>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
     <Button
         android:layout_marginTop="20dp"
         android:layout_width="240dp"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="0.7"
         android:layout_gravity="center"
         android:text="登录"
         android:textColor="#FFFFFF"
@@ -128,5 +131,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"/>
+        android:layout_weight="1"/>
 </LinearLayout>
