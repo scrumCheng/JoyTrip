@@ -129,4 +129,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mineImg.setImageResource(R.mipmap.indicator_mine_inactive);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int id = getIntent().getIntExtra("id",0);
+        if(id==1){
+            initViews();
+            homeImg.setImageResource(R.mipmap.indicator_home_inactive);
+            setTabSelection(1);
+        }
+    }
 }

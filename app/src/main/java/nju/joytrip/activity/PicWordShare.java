@@ -1,5 +1,6 @@
 package nju.joytrip.activity;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ public class PicWordShare extends AppCompatActivity {
                     public void done(String s, BmobException e) {
                         if (e == null) {
                             Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PicWordShare.this,MainActivity.class);
+                            intent.putExtra("id",1);
+                            startActivity(intent);
                             finish();
                         } else {
                             Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();

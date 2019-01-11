@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment {
                         public void run() {
                             setListView(mapList);
                         }
-                    }, 500);
+                    }, 50);
                 }else {
                     Log.i("error", e.toString());
                 }
