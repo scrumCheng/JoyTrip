@@ -16,17 +16,18 @@ import nju.joytrip.R;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
-public class GridAdapater extends BaseAdapter {
+public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<String> mlistUrls;
     private LayoutInflater minflater;
 
-    public GridAdapater(Context context, ArrayList<String> listUrls){
+    public GridAdapter(Context context, ArrayList<String> listUrls){
+        mContext = context;
         this.mlistUrls = listUrls;
-        if(listUrls.size()==7){
+        if(listUrls.size()==10){
             listUrls.remove(listUrls.size()-1);
         }
-        minflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        minflater =  LayoutInflater.from(mContext);
     }
 
     @Override
@@ -46,18 +47,18 @@ public class GridAdapater extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if(convertView==null){
             holder = new ViewHolder();
-            convertView = minflater.inflate(R.layout.pic_item,parent,false);
-            holder.image = (ImageView)convertView.findViewById(R.id.image);
+            convertView = minflater.inflate(R.layout.pic_word_item,parent,false);
+            holder.image = convertView.findViewById(R.id.image_view);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
         final String path = mlistUrls.get(position);
         if(path.equals("paizhao")){
-            holder.image.setImageResource(R.mipmap.default_user);
+            holder.image.setImageResource(R.mipmap.ic_launcher);
         }else {
             Glide.with(mContext)
                     .asBitmap()

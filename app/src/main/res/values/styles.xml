@@ -55,4 +55,17 @@
         <item name="android:windowBackground">@color/date_picker_bg</item>
     </style>
 
+    <style name="ActionMenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="PhotoPickerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/photopicker_background</item><!--设置显示图片的背景-->
+        <item name="actionMenuTextAppearance">@style/ActionMenuTextStyle</item>
+    </style>
+
+    <color name="photopicker_background">#181819</color>
 </resources>
