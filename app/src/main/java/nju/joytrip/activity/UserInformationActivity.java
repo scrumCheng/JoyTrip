@@ -30,6 +30,9 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Objects;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
@@ -46,6 +49,8 @@ public class UserInformationActivity extends AppCompatActivity {
     private ImageView imageView_portrait;
     private RelativeLayout layout_portrait, layout_nickname, layout_userid,
             layout_phonenumber, layout_gender, layout_email, layout_password;
+    private Uri uritempFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,13 +129,12 @@ public class UserInformationActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             String[] mPermissionList = new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.READ_LOGS,
 //                    Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.SET_DEBUG_APP,
                     Manifest.permission.SYSTEM_ALERT_WINDOW,
-//                    Manifest.permission.GET_ACCOUNTS,
                     Manifest.permission.WRITE_APN_SETTINGS,
                     Manifest.permission.CAMERA};
             ActivityCompat.requestPermissions(this, mPermissionList, 123);
@@ -189,9 +193,17 @@ public class UserInformationActivity extends AppCompatActivity {
                 break;
             //调用剪裁后返回
             case 3:
-                Uri imageUri = intent.getData();
-                String uri = saveImage("tmp", BitmapFactory.decodeFile(imageUri.getPath()));
-                if (imageUri != null) {
+                File file = null;
+                try {
+                    file = new File(new URI(uritempFile.toString()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                //照片路径
+                String uri = Objects.requireNonNull(file).getPath();
+//                Uri imageUri = intent.getData();
+//                String uri = saveImage("tmp", BitmapFactory.decodeFile(imageUri.getPath()));
+                if (uri != null) {
                     uploadUserPortrait(uri);
                     Log.d("Uri", uri);
                 } else {
@@ -207,8 +219,6 @@ public class UserInformationActivity extends AppCompatActivity {
     private void cropPhoto(String uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         File file = new File(uri);
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.setDataAndType(Uri.fromFile(file), "image/*");
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
@@ -219,7 +229,9 @@ public class UserInformationActivity extends AppCompatActivity {
         // outputX,outputY 是剪裁图片的宽高
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", false);// true的话直接返回bitmap，可能会很占内存 不建议
+        intent.putExtra("return-data",  true);// true的话直接返回bitmap，可能会很占内存 不建议
+        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // no face detection
 
