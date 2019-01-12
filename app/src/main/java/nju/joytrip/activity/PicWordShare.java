@@ -17,10 +17,12 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 
+import com.foamtrace.photopicker.ImageCaptureManager;
 import com.foamtrace.photopicker.PhotoPickerActivity;
 import com.foamtrace.photopicker.PhotoPreviewActivity;
 import com.foamtrace.photopicker.SelectModel;
 import com.foamtrace.photopicker.intent.PhotoPickerIntent;
+import com.foamtrace.photopicker.intent.PhotoPreviewIntent;
 
 import org.json.JSONArray;
 
@@ -46,6 +48,7 @@ public class PicWordShare extends AppCompatActivity {
     private GridAdapter mgridAdapter;
     private EditText mtextView;
     private Button msubmit_btn;
+    ImageCaptureManager captureManager = new ImageCaptureManager(PicWordShare.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +70,25 @@ public class PicWordShare extends AppCompatActivity {
                     intent.setSelectModel(SelectModel.MULTI);
                     intent.setShowCarema(true);// 是否显示拍照
                     intent.setMaxTotal(9);// 最多选择照片数量，默认为9
+                    if(imagePaths.contains("paizhao")){
+                        imagePaths.remove("paizhao");
+                    }
                     intent .setSelectedPaths(imagePaths);// 已选中的照片地址， 用于回显选中状态
                     startActivityForResult(intent, REQUEST_CAMERA_CODE);
                 }else{
                     Toast.makeText(PicWordShare.this,"1"+position,Toast.LENGTH_LONG).show();
-                    PhotoPickerIntent intent = new PhotoPickerIntent(PicWordShare.this);
-//                    intent.setCurrentItem(position);
-                    intent.setSelectedPaths(imagePaths);/////不一样
-                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+                    PhotoPreviewIntent intent = new PhotoPreviewIntent(PicWordShare.this);
+                    intent.setCurrentItem(position);
 
+                    intent.setPhotoPaths(imagePaths);
+                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
                 }
             }
         });
         imagePaths.add("paizhao");
         mgridAdapter = new GridAdapter(PicWordShare.this,imagePaths);
         mgridView.setAdapter(mgridAdapter);
+
 
         msubmit_btn = findViewById(R.id.share_submit_btn);
         msubmit_btn.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +130,18 @@ public class PicWordShare extends AppCompatActivity {
                 Log.d("PicWordShare","数量"+list.size());
                 loadAdpater(list);
                 break;
+            case ImageCaptureManager.REQUEST_TAKE_PHOTO:
+
+                if(captureManager.getCurrentPhotoPath() != null) {
+                    captureManager.galleryAddPic();
+                    // 照片地址
+                    String image = captureManager.getCurrentPhotoPath();
+                    ArrayList<String> ListExtra = new ArrayList<String>();
+                    ListExtra.add(image);
+                    loadAdpater(ListExtra);
+                    // ...
+                }
+                break;
             case REQUEST_PREVIEW_CODE:
                 ArrayList<String> ListExtra = data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT);
                 loadAdpater(ListExtra);
@@ -132,14 +151,14 @@ public class PicWordShare extends AppCompatActivity {
 }
 
     private void loadAdpater(ArrayList<String> paths) {
-        if (imagePaths!= null&& imagePaths.size()>0){
-            imagePaths.clear();
-        }
         if(paths.contains("paizhao")){
             paths.remove("paizhao");
         }
         paths.add("paizhao");
-        mgridAdapter = new GridAdapter(PicWordShare.this,imagePaths);
+        imagePaths.addAll(paths);
+        if(mgridAdapter==null) {
+            mgridAdapter = new GridAdapter(PicWordShare.this, imagePaths);
+        }
         mgridView.setAdapter(mgridAdapter);
         try{
             JSONArray obj = new JSONArray(imagePaths);

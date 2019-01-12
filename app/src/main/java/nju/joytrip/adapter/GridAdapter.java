@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,10 @@ public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<String> mlistUrls;
     private LayoutInflater minflater;
+    private RoundedCorners mroundedCorners= new RoundedCorners(6);
+    //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+    private RequestOptions moptions=RequestOptions.bitmapTransform(mroundedCorners).override(300, 300);
+
 
     public GridAdapter(Context context, ArrayList<String> listUrls){
         mContext = context;
@@ -58,13 +64,9 @@ public class GridAdapter extends BaseAdapter {
         }
         final String path = mlistUrls.get(position);
         if(path.equals("paizhao")){
-            holder.image.setImageResource(R.mipmap.ic_launcher);
+          holder.image.setImageResource(R.mipmap.ic_launcher);
         }else {
-            Glide.with(mContext)
-                    .asBitmap()
-                    .load(path)
-                    .apply(bitmapTransform(new CropCircleTransformation()))
-                    .into(holder.image);
+            Glide.with(mContext).load(path).apply(moptions).into(holder.image);
         }
         return convertView;
     }
