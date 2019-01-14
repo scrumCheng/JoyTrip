@@ -20,6 +20,7 @@
 
     <style name="event_name">
         <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#4F94CD</item>
     </style>
     
     <style name="event_title">
@@ -30,12 +31,12 @@
     </style>
 
     <style name="event_content">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="event_time">
         <item name="android:textColor">#CCCCCC</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -53,6 +54,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/date_picker_bg</item>
+    </style>
+
+    <style name="notice_tip">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#CCCCCC</item>
     </style>
 
 </resources>
