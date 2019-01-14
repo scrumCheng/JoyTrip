@@ -38,6 +38,7 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import nju.joytrip.R;
@@ -48,7 +49,7 @@ public class UserInformationActivity extends AppCompatActivity {
     private User user;
     private ImageView imageView_portrait;
     private RelativeLayout layout_portrait, layout_nickname, layout_userid,
-            layout_phonenumber, layout_gender, layout_email, layout_password;
+            layout_phonenumber, layout_gender, layout_email, layout_password, layout_logout;
     private Uri uritempFile;
     private int genderChoice = 0;
 
@@ -74,6 +75,7 @@ public class UserInformationActivity extends AppCompatActivity {
         layout_gender = findViewById(R.id.layout_gender);
         layout_email = findViewById(R.id.layout_email);
         layout_password = findViewById(R.id.layout_password);
+        layout_logout = findViewById(R.id.layout_logout);
 
         refreshUserInformation();
 
@@ -277,6 +279,25 @@ public class UserInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(UserInformationActivity.this, PasswordModificationActivity.class);
                 UserInformationActivity.this.startActivity(intent);
+            }
+        });
+
+        layout_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("确认退出登录？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                BmobUser.logOut();
+                                Intent intent = new Intent(UserInformationActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                UserInformationActivity.this.startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
             }
         });
     }

@@ -27,6 +27,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.activity.EventPublish;
+import nju.joytrip.activity.MyPublishedActivity;
 import nju.joytrip.activity.NoticeActivity;
 import nju.joytrip.activity.UserInformationActivity;
 import nju.joytrip.entity.Notice;
@@ -89,7 +90,8 @@ public class MineFragment extends Fragment {
         myPublished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "我的发布功能即将上线！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MyPublishedActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
