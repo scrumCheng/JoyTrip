@@ -106,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v){
-        String id = getIntent().getStringExtra("id");
+        final String id = getIntent().getStringExtra("id");
         BmobQuery<Event> query = new BmobQuery<Event>();
         query.include("user");
         switch (v.getId()){
@@ -147,13 +147,23 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
                                                 }
                                             });
-                                        }else {
-                                            builder.setMessage("加入失败")
-                                                    .setPositiveButton("确定", null)
-                                                    .show();
+                                            ArrayList<String> eventList = user.getEvents();
+                                            Log.i("aaaaaaaaa", String.valueOf(eventList.size()));
+                                            if (eventList == null || !eventList.contains(id)){
+                                                eventList.add(id);
+                                                user.setEvents(eventList);
+                                                user.update(new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+
+                                                    }
+                                                });
+                                            }
+
                                         }
                                     }
                                 });
+
                             }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                                 builder.setMessage("您已加入该活动")
