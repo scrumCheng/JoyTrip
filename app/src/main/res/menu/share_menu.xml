@@ -2,19 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/word"
+        android:id="@+id/menu_item_pw_share"
         android:orderInCategory="100"
-        android:title="@string/word_share"
+        android:title="@string/pic_word_share"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/pic"
+        android:id="@+id/menu_item_v_share"
         android:orderInCategory="200"
-        android:title="@string/pic_share"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/video"
-        android:orderInCategory="300"
         android:title="@string/video_share"
         app:showAsAction="never" />
+
 </menu>

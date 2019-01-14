@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ import cn.bmob.v3.listener.FindListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 
+import nju.joytrip.activity.PicWordShare;
 import nju.joytrip.activity.ShareDetail;
 import nju.joytrip.entity.PWShare;
 
@@ -47,6 +49,7 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 public class UpdatesFragment extends Fragment {
     private SimpleAdapter adapter;
     private Button pubBtn;
+    private ListView lv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle saveInstanceState){
@@ -55,8 +58,8 @@ public class UpdatesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        ListView lv = (ListView)view.findViewById(R.id.share_item_list);
-        loadData(lv);
+        lv = (ListView)view.findViewById(R.id.share_item_list);
+        loadData();
         return view;
     }
 
@@ -69,24 +72,21 @@ public class UpdatesFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent;
         switch(id){
-            case R.id.word:
-                Intent intent1 = new Intent(getActivity(), nju.joytrip.activity.PicWordShare.class );
-                startActivity(intent1);
+            case R.id.menu_item_pw_share:
+                intent = new Intent(getActivity(), PicWordShare.class );
+                startActivity(intent);
                 return true;
-            case R.id.pic:
-                Intent intent2 = new Intent(getActivity(), nju.joytrip.activity.PicWordShare.class);
-                startActivity(intent2);
-                return true;
-            case R.id.video:
-                Intent intent3 = new Intent(getActivity(), nju.joytrip.activity.PicWordShare.class);
-                startActivity(intent3);
+            case R.id.menu_item_v_share:
+                intent = new Intent(getActivity(), PicWordShare.class);
+                startActivity(intent);
                 return true;
         }
         return false;
     }
 
-    private void loadData(final ListView lv){
+    private void loadData(){
         BmobQuery<PWShare> bmobQuery = new BmobQuery<PWShare>();
         bmobQuery.include("user");
         bmobQuery.addQueryKeys("user,content,username,userPic,nickName");
@@ -95,7 +95,7 @@ public class UpdatesFragment extends Fragment {
             @Override
             public void done(List<PWShare> list, BmobException e) {
                 if (e == null){
-                    List<Map<String, String>> mapList = new ArrayList<>();
+                    final List<Map<String, String>> mapList = new ArrayList<>();
                     for (PWShare event : list){
                         String userPic = event.getUser().getUserPic();
                         String username = event.getUser().getUsername();
@@ -121,31 +121,14 @@ public class UpdatesFragment extends Fragment {
                         mapList.add(mHashMap);
 
                     }
-                    adapter = new SimpleAdapter(getActivity(), mapList, R.layout.word_share_item,
-                            new String[]{"userPic", "username",  "content", "time"},
-                            new int[]{R.id.share_item_pic, R.id.share_item_name,  R.id.share_item_content, R.id.share_item_createTime});
-                    adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
                         @Override
-                        public boolean setViewValue(View view, Object data, String textRepresentation) {
-                            if (view instanceof ImageView && data instanceof Bitmap){
-                                ImageView iv = (ImageView)view;
-                                iv.setImageBitmap((Bitmap)data);
-                                return true;
-                            }
-                            return false;
+                        public void run() {
+                            setListView(mapList);
                         }
-                    });
-                    lv.setAdapter(adapter);
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
-                            String eventId = h.get("id");
-                            Intent intent = new Intent(getActivity(), ShareDetail.class);
-                            intent.putExtra("id", eventId);
-                            startActivity(intent);
-                        }
-                    });
+                    }, 50);
+
                 }
                 else{
                     Log.i("bmob","失败："+e.getMessage());
@@ -154,12 +137,34 @@ public class UpdatesFragment extends Fragment {
 
         });
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void setListView(List<Map<String, String>> mapList){
+        adapter = new SimpleAdapter(getActivity(), mapList, R.layout.word_share_item,
+                new String[]{"userPic", "username",  "content", "time"},
+                new int[]{R.id.share_item_pic, R.id.share_item_name,  R.id.share_item_content, R.id.share_item_createTime});
+        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object data, String textRepresentation) {
+                if (view instanceof ImageView && data instanceof Bitmap){
+                    ImageView iv = (ImageView)view;
+                    iv.setImageBitmap((Bitmap)data);
+                    return true;
+                }
+                return false;
+            }
+        });
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
+                String eventId = h.get("id");
+                Intent intent = new Intent(getActivity(), ShareDetail.class);
+                intent.putExtra("id", eventId);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
 }
