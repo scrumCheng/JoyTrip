@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
@@ -34,7 +34,8 @@
         <activity android:name=".activity.PicWordShare" />
         <activity android:name=".activity.ShareDetail" />
         <activity android:name=".activity.UserInformationActivity" />
-        <activity android:name=".activity.NoticeActivity"></activity>
+        <activity android:name=".activity.NoticeActivity" />
+        <activity android:name=".activity.PasswordModificationActivity"></activity>
     </application>
 
 </manifest>
