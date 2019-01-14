@@ -23,4 +23,5 @@
     <string name="user_information_activity_gender">性别</string>
     <string name="user_information_activity_email">邮箱</string>
     <string name="user_information_activity_password">密码管理</string>
+    <string name="user_information_activity_logout">注销登录</string>
 </resources>

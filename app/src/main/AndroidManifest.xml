@@ -35,7 +35,8 @@
         <activity android:name=".activity.ShareDetail" />
         <activity android:name=".activity.UserInformationActivity" />
         <activity android:name=".activity.NoticeActivity" />
-        <activity android:name=".activity.PasswordModificationActivity"></activity>
+        <activity android:name=".activity.PasswordModificationActivity" />
+        <activity android:name=".activity.MyPublishedActivity"></activity>
     </application>
 
 </manifest>
