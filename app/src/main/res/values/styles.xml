@@ -69,7 +69,6 @@
     </style>
 
     <color name="photopicker_background">#181819</color>
-</resources>
 
     <style name="notice_tip">
         <item name="android:textSize">18sp</item>
