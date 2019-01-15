@@ -4,20 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.HomeFragment">
-    <ImageView
-        android:id="@+id/test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/publish_btn"
+    tools:context=".fragment.HomeFragment"
+    android:background="#FFFFFF">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="发布活动"/>
+        android:layout_height="0dp"
+        android:layout_weight="1.25"
+        android:orientation="horizontal"
+        android:focusableInTouchMode="true">
 
+        <EditText
+            android:layout_margin="10dp"
+            android:id="@+id/search_edit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/edit_shape" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="查询"
+            android:background="@drawable/search_button_shape"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#d8d8d8"/>
     <ListView
         android:id="@+id/item_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="8.75"
+        android:dividerHeight="5dp"
+        android:divider="#d8d8d8">
     </ListView>
 </LinearLayout>
