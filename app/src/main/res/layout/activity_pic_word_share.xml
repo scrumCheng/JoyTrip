@@ -30,7 +30,7 @@
             android:maxLines="3"
             android:lineSpacingExtra="3dp" />
 
-        <GridView
+        <nju.joytrip.customview.MyGridView
             android:id="@+id/pic_share_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

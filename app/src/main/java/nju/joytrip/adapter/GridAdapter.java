@@ -13,10 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class GridAdapter extends BaseAdapter {
     private Context mContext;
@@ -56,15 +53,15 @@ public class GridAdapter extends BaseAdapter {
         ViewHolder holder;
         if(convertView==null){
             holder = new ViewHolder();
-            convertView = minflater.inflate(R.layout.pic_word_item,parent,false);
+            convertView = minflater.inflate(R.layout.photo_item,parent,false);
             holder.image = convertView.findViewById(R.id.image_view);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
         final String path = mlistUrls.get(position);
-        if(path.equals("paizhao")){
-          holder.image.setImageResource(R.mipmap.ic_launcher);
+        if(path.equals("add")){
+          holder.image.setImageResource(R.drawable.add_photo);
         }else {
             Glide.with(mContext).load(path).apply(moptions).into(holder.image);
         }

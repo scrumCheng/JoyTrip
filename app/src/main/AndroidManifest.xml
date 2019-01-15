@@ -35,11 +35,17 @@
         <activity android:name=".activity.PicWordShare" />
         <activity android:name=".activity.ShareDetail" />
         <activity android:name=".activity.UserInformationActivity"></activity>
-        <activity android:name="com.foamtrace.photopicker.PhotoPickerActivity"
-            android:theme="@style/PhotoPickerTheme"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name="com.foamtrace.photopicker.PhotoPreviewActivity"
-            android:theme="@style/PhotoPickerTheme" />
+
+        <!--<activity android:name="me.iwf.photopicker.PhotoPickerActivity"-->
+            <!--android:theme="@style/PhotoPickerTheme"-->
+            <!--android:configChanges="orientation|screenSize" />-->
+        <!--<activity android:name="me.iwf.photopicker.PhotoPagerActivity"-->
+            <!--android:theme="@style/PhotoPickerTheme" />-->
+
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+
     </application>
 
 </manifest>

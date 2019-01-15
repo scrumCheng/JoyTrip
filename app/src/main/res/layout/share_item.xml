@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/share_item_pic"
+            android:id="@+id/write_photo"
             android:layout_width="52dp"
             android:layout_height="52dp" />
 
@@ -21,36 +21,37 @@
             android:orientation="vertical"
             android:layout_marginLeft="10dp">
             <TextView
-                android:id="@+id/share_item_name"
+                android:id="@+id/write_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/event_name"/>
             <TextView
-                android:id="@+id/share_item_createTime"
+                android:id="@+id/write_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/event_time"/>
         </LinearLayout>
-
     </LinearLayout>
-
-    <!--<TextView-->
-        <!--android:id="@+id/share_item_title"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:singleLine="true"-->
-        <!--style="@style/event_title"/>-->
-    <!--<TextView-->
-    <!--android:id="@+id/share_item_createTime"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--style="@style/event_time"/>-->
     <TextView
-        android:id="@+id/share_item_content"
+        android:id="@+id/dynamic_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minLines="1"
         android:maxLines="2"
         style="@style/event_content"/>
+    <nju.joytrip.customview.MyGridView
+        android:id="@+id/dynamic_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:columnWidth="65dp"
+        android:fadingEdge="none"
+        android:horizontalSpacing="2dp"
+        android:listSelector="#00000000"
+        android:numColumns="auto_fit"
+        android:scrollbars="none"
+        android:stretchMode="columnWidth"
+        android:transcriptMode="alwaysScroll"
+        android:verticalSpacing="2dp" />
 
 </LinearLayout>
