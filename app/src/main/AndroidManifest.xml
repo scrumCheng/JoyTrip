@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:allowBackup="true"
@@ -32,7 +34,19 @@
 
         <!-- <activity android:name=".activity.CheckWordShare" /> -->
         <activity android:name=".activity.PicWordShare" />
-        <activity android:name=".activity.ShareDetail" />
+        <activity android:name=".activity.ShareDetail" 
+        <activity android:name=".activity.UserInformationActivity"></activity>
+
+        <!--<activity android:name="me.iwf.photopicker.PhotoPickerActivity"-->
+            <!--android:theme="@style/PhotoPickerTheme"-->
+            <!--android:configChanges="orientation|screenSize" />-->
+        <!--<activity android:name="me.iwf.photopicker.PhotoPagerActivity"-->
+            <!--android:theme="@style/PhotoPickerTheme" />-->
+
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+
         <activity android:name=".activity.UserInformationActivity" />
         <activity android:name=".activity.NoticeActivity" />
         <activity android:name=".activity.PasswordModificationActivity" />

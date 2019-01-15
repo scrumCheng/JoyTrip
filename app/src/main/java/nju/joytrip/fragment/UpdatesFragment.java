@@ -1,6 +1,5 @@
 package nju.joytrip.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -41,6 +39,7 @@ import nju.joytrip.R;
 
 import nju.joytrip.activity.PicWordShare;
 import nju.joytrip.activity.ShareDetail;
+import nju.joytrip.adapter.ShareAdapter;
 import nju.joytrip.entity.PWShare;
 
 
@@ -48,19 +47,43 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class UpdatesFragment extends Fragment {
     private SimpleAdapter adapter;
-    private Button pubBtn;
     private ListView lv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle saveInstanceState){
 
         View view = inflater.inflate(R.layout.fragment_updates, container, false);
-
         setHasOptionsMenu(true);
-
         lv = (ListView)view.findViewById(R.id.share_item_list);
-        loadData();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
+                String eventId = h.get("id");
+                Log.i("1231545" ,"45345345");
+                Intent intent = new Intent(getActivity(), ShareDetail.class);
+                intent.putExtra("id", eventId);
+                startActivity(intent);
+            }
+        });
+       init();
+//        loadData();
         return view;
+    }
+
+    public void init(){
+        BmobQuery<PWShare> bmobQuery = new BmobQuery<PWShare>();
+        bmobQuery.include("user");
+        bmobQuery.order("-createdAt");
+        bmobQuery.findObjects(new FindListener<PWShare>() {
+            @Override
+            public void done(List<PWShare> list, BmobException e) {
+                if (e == null) {
+                    lv.setAdapter(new ShareAdapter(getActivity(), R.layout.share_item, list));
+                }
+            }
+        });
+
     }
 
     @Override
@@ -89,7 +112,6 @@ public class UpdatesFragment extends Fragment {
     private void loadData(){
         BmobQuery<PWShare> bmobQuery = new BmobQuery<PWShare>();
         bmobQuery.include("user");
-        bmobQuery.addQueryKeys("user,content,username,userPic,nickName");
         bmobQuery.order("-createdAt");
         bmobQuery.findObjects(new FindListener<PWShare>() {
             @Override
@@ -138,9 +160,9 @@ public class UpdatesFragment extends Fragment {
         });
     }
     private void setListView(List<Map<String, String>> mapList){
-        adapter = new SimpleAdapter(getActivity(), mapList, R.layout.word_share_item,
+        adapter = new SimpleAdapter(getActivity(), mapList, R.layout.share_item,
                 new String[]{"userPic", "username",  "content", "time"},
-                new int[]{R.id.share_item_pic, R.id.share_item_name,  R.id.share_item_content, R.id.share_item_createTime});
+                new int[]{R.id.write_photo, R.id.write_name,  R.id.dynamic_text, R.id.write_date});
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data, String textRepresentation) {
@@ -153,16 +175,7 @@ public class UpdatesFragment extends Fragment {
             }
         });
         lv.setAdapter(adapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
-                String eventId = h.get("id");
-                Intent intent = new Intent(getActivity(), ShareDetail.class);
-                intent.putExtra("id", eventId);
-                startActivity(intent);
-            }
-        });
+
     }
 
 
