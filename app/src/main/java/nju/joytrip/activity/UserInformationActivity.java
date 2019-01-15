@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -20,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +38,7 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import nju.joytrip.R;
@@ -48,8 +49,9 @@ public class UserInformationActivity extends AppCompatActivity {
     private User user;
     private ImageView imageView_portrait;
     private RelativeLayout layout_portrait, layout_nickname, layout_userid,
-            layout_phonenumber, layout_gender, layout_email, layout_password;
+            layout_phonenumber, layout_gender, layout_email, layout_password, layout_logout;
     private Uri uritempFile;
+    private int genderChoice = 0;
 
 
     @Override
@@ -73,6 +75,7 @@ public class UserInformationActivity extends AppCompatActivity {
         layout_gender = findViewById(R.id.layout_gender);
         layout_email = findViewById(R.id.layout_email);
         layout_password = findViewById(R.id.layout_password);
+        layout_logout = findViewById(R.id.layout_logout);
 
         refreshUserInformation();
 
@@ -107,9 +110,200 @@ public class UserInformationActivity extends AppCompatActivity {
                         }).create().show();
             }
         });
+
+        layout_nickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText nicknameEditText = new EditText(UserInformationActivity.this);
+                nicknameEditText.setText(user.getNickname());
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("修改用户昵称")
+                        .setView(nicknameEditText)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                user.setNickname(nicknameEditText.getText().toString());
+                                user.setMobilePhoneNumber(null);
+                                user.setEmail(null);
+                                user.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            Toast.makeText(UserInformationActivity.this,"昵称修改成功！", Toast.LENGTH_SHORT).show();
+                                            refreshUserInformation();
+                                        } else {
+                                            Toast.makeText(UserInformationActivity.this,"昵称修改失败！", Toast.LENGTH_SHORT).show();
+                                            Log.d("昵称修改失败", user.getUsername() + ": " + nicknameEditText.getText().toString());
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
+        layout_userid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("用户ID不可修改")
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setPositiveButton("确定", null)
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
+        layout_phonenumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText phonenumberEditText = new EditText(UserInformationActivity.this);
+                phonenumberEditText.setText(user.getMobilePhoneNumber());
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("修改电话号码")
+                        .setView(phonenumberEditText)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                user.setMobilePhoneNumber(phonenumberEditText.getText().toString());
+                                user.setEmail(null);
+                                user.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            Toast.makeText(UserInformationActivity.this,"电话号码修改成功！", Toast.LENGTH_SHORT).show();
+                                            refreshUserInformation();
+                                        } else {
+                                            Toast.makeText(UserInformationActivity.this,"电话号码修改失败！", Toast.LENGTH_SHORT).show();
+                                            Log.d("电话号码修改失败", user.getUsername() + ": " + phonenumberEditText.getText().toString());
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
+        layout_gender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String items[] = {"男", "女"};
+                if (user.getGender() != null){
+                    for (int i = 0; i<items.length; i++) {
+                        if (user.getGender().equals(items[i])){
+                            genderChoice = i;
+                            break;
+                        }
+                    }
+                }
+                AlertDialog dialog = new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("性别")//设置对话框的标题
+                        .setSingleChoiceItems(items, genderChoice, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                genderChoice = which;
+                                Toast.makeText(UserInformationActivity.this, items[which], Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                user.setGender(items[genderChoice]);
+                                user.setMobilePhoneNumber(null);
+                                user.setEmail(null);
+                                user.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null){
+                                            Toast.makeText(UserInformationActivity.this, "性别修改成功！", Toast.LENGTH_SHORT).show();
+                                            refreshUserInformation();
+                                        } else {
+                                            Toast.makeText(UserInformationActivity.this, "性别修改失败！", Toast.LENGTH_SHORT).show();
+                                            Log.d("性别修改失败！", user.getUsername() + ": " + user.getGender());
+                                            Log.e("性别修改失败", e.getMessage());
+                                        }
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
+                        }).create();
+                dialog.show();
+            }
+        });
+
+        layout_email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText emailEditText = new EditText(UserInformationActivity.this);
+                emailEditText.setText(user.getEmail());
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("修改邮箱")
+                        .setView(emailEditText)
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                user.setEmail(emailEditText.getText().toString());
+                                user.setMobilePhoneNumber(null);
+                                user.update(new UpdateListener() {
+                                    @Override
+                                    public void done(BmobException e) {
+                                        if (e == null) {
+                                            Toast.makeText(UserInformationActivity.this,"邮箱修改成功！", Toast.LENGTH_SHORT).show();
+                                            refreshUserInformation();
+                                        } else {
+                                            Toast.makeText(UserInformationActivity.this,"邮箱修改失败！", Toast.LENGTH_SHORT).show();
+                                            Log.d("邮箱修改失败", user.getUsername() + ": " + emailEditText.getText().toString() + e.getErrorCode());
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
+
+        layout_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserInformationActivity.this, PasswordModificationActivity.class);
+                UserInformationActivity.this.startActivity(intent);
+            }
+        });
+
+        layout_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(UserInformationActivity.this)
+                        .setTitle("确认退出登录？")
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                BmobUser.logOut();
+                                Intent intent = new Intent(UserInformationActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                UserInformationActivity.this.startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+            }
+        });
     }
 
     private void refreshUserInformation() {
+        user = BmobUser.getCurrentUser(User.class);
         refreshUserPortrait();
         ((TextView) layout_nickname.getChildAt(1)).setText(user.getNickname());
         ((TextView) layout_userid.getChildAt(1)).setText(user.getUsername());
@@ -262,6 +456,7 @@ public class UserInformationActivity extends AppCompatActivity {
                     //bmobFile.getFileUrl()--返回的上传文件的完整地址
                     Toast.makeText(UserInformationActivity.this, "上传文件成功!" , Toast.LENGTH_SHORT).show();
                     Log.d("New UserPic Uri", bmobFile.getFileUrl());
+                    user.setMobilePhoneNumber(null);
                     user.setUserPic(bmobFile.getFileUrl());
                     user.update(new UpdateListener() {
                         @Override
@@ -270,13 +465,14 @@ public class UserInformationActivity extends AppCompatActivity {
                                 Log.d("Success Portrait Upload! New UserPic Uri", user.getUserPic());
                                 refreshUserPortrait();
                             } else {
-                                Toast.makeText(UserInformationActivity.this, "上传文件失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UserInformationActivity.this, "头像修改失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         }
                     });
                 }else{
                     Toast.makeText(UserInformationActivity.this, "上传文件失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
                 }
             }
         });

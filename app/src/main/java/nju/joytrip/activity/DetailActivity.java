@@ -148,8 +148,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                                                 }
                                             });
                                             ArrayList<String> eventList = user.getEvents();
-                                            Log.i("aaaaaaaaa", String.valueOf(eventList.size()));
-                                            if (eventList == null || !eventList.contains(id)){
+                                            if (eventList == null){
+                                                eventList = new ArrayList<String>();
+                                            }
+                                            if (!eventList.contains(id) || eventList.isEmpty()){
                                                 eventList.add(id);
                                                 user.setEvents(eventList);
                                                 user.update(new UpdateListener() {
