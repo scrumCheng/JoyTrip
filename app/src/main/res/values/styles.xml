@@ -76,4 +76,9 @@
         <item name="android:textColor">#CCCCCC</item>
     </style>
 
+    <color name="photopicker_background">#181819</color>
 </resources>
+
+
+
+
