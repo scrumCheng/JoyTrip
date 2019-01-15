@@ -27,6 +27,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.activity.EventPublish;
+import nju.joytrip.activity.MyJoinedActivity;
 import nju.joytrip.activity.MyPublishedActivity;
 import nju.joytrip.activity.NoticeActivity;
 import nju.joytrip.activity.UserInformationActivity;
@@ -98,7 +99,8 @@ public class MineFragment extends Fragment {
         myFollowed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "我的加入功能即将上线！", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MyJoinedActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

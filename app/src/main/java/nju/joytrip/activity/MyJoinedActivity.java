@@ -12,18 +12,15 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
@@ -37,31 +34,34 @@ import nju.joytrip.entity.User;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
-public class MyPublishedActivity extends AppCompatActivity {
+public class MyJoinedActivity extends AppCompatActivity {
 
-    private ListView listView_myPublished;
+    private ListView listView_myJoined;
     private List<Map<String, String>> mapList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_published);
+        setContentView(R.layout.activity_my_joined);
 
-        setTitle("我的发布");
-        listView_myPublished = findViewById(R.id.lv_myPublished);
+        setTitle("我的加入 ");
+        listView_myJoined = findViewById(R.id.lv_myJoined);
         mapList = new ArrayList<>();
 
         final User user = BmobUser.getCurrentUser(User.class);
+        if (user.getEvents() == null){
+            return;
+        }
         BmobQuery<Event> query = new BmobQuery<Event>();
-        query.include("user");
-        query.addWhereEqualTo("user", user);
+        query.include("objectId");
+        query.addWhereContainedIn("objectId", user.getEvents());
         query.findObjects(new FindListener<Event>() {
             @Override
             public void done(List<Event> list, BmobException e) {
-                if (e == null) {
-                    for (Event event : list){
-                        final HashMap mHashMap = new HashMap<>();
-                        Glide.with(MyPublishedActivity.this)
+                if (e == null){
+                    for (Event event : list) {
+                        final HashMap mHashMap = new HashMap();
+                        Glide.with(MyJoinedActivity.this)
                                 .asBitmap()
                                 .load(user.getUserPic())
                                 .apply(bitmapTransform(new CropCircleTransformation()))
@@ -78,18 +78,17 @@ public class MyPublishedActivity extends AppCompatActivity {
                         mHashMap.put("id", event.getObjectId());
                         mapList.add(mHashMap);
                     }
-                    setListView();
+                    loadData();
                 } else {
-                    Log.d("查询我的发布查询失败", e.getMessage());
-                    e.printStackTrace();
+                    Toast.makeText(MyJoinedActivity.this, "查询失败", Toast.LENGTH_SHORT).show();
+                    Log.d("我的加入查询失败", e.toString());
                 }
             }
         });
-
     }
 
-    private void setListView(){
-        SimpleAdapter adapter = new SimpleAdapter(MyPublishedActivity.this, mapList, R.layout.event_item,
+    private void loadData() {
+        SimpleAdapter adapter = new SimpleAdapter(MyJoinedActivity.this, mapList, R.layout.event_item,
                 new String[]{"userPic", "username", "title", "content", "time"},
                 new int[]{R.id.item_pic, R.id.item_name, R.id.item_title, R.id.item_content, R.id.item_createTime});
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
@@ -103,17 +102,16 @@ public class MyPublishedActivity extends AppCompatActivity {
                 return false;
             }
         });
-        listView_myPublished.setAdapter(adapter);
-        listView_myPublished.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_myJoined.setAdapter(adapter);
+        listView_myJoined.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
                 String eventId = h.get("id");
-                Intent intent = new Intent(MyPublishedActivity.this, DetailActivity.class);
+                Intent intent = new Intent(MyJoinedActivity.this, DetailActivity.class);
                 intent.putExtra("id", eventId);
                 startActivity(intent);
             }
         });
-
     }
 }
