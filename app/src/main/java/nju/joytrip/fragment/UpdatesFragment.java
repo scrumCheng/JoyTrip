@@ -58,8 +58,8 @@ public class UpdatesFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, String> h = (HashMap<String, String>)parent.getItemAtPosition(position);
-                String eventId = h.get("id");
+                PWShare h = (PWShare) parent.getItemAtPosition(position);
+                String eventId = h.getObjectId();
                 Log.i("1231545" ,"45345345");
                 Intent intent = new Intent(getActivity(), ShareDetail.class);
                 intent.putExtra("id", eventId);
