@@ -39,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:text="20sp"
         style="@style/event_title"/>
 
     <TextView
@@ -47,6 +48,7 @@
         android:layout_height="wrap_content"
         android:minLines="1"
         android:maxLines="2"
-        style="@style/event_content"/>
+        style="@style/event_content"
+        android:textSize="15sp"/>
 
 </LinearLayout>

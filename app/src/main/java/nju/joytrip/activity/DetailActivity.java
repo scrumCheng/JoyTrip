@@ -33,10 +33,12 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.entity.Event;
+import nju.joytrip.entity.Notice;
 import nju.joytrip.entity.User;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -104,7 +106,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v){
-        String id = getIntent().getStringExtra("id");
+        final String id = getIntent().getStringExtra("id");
         BmobQuery<Event> query = new BmobQuery<Event>();
         query.include("user");
         switch (v.getId()){
@@ -115,6 +117,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                     public void done(final Event event, BmobException e) {
                         if (e == null){
                             ArrayList<String> arrayList = event.getUsers();
+                            final User publisher = event.getUser();
                             if (!arrayList.contains(user.getObjectId())){
                                 arrayList.add(user.getObjectId());
                                 event.setUsers(arrayList);
@@ -133,13 +136,36 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                                                         }
                                                     })
                                                     .show();
-                                        }else {
-                                            builder.setMessage("加入失败")
-                                                    .setPositiveButton("确定", null)
-                                                    .show();
+                                            Notice notice = new Notice();
+                                            notice.setUser(user);
+                                            notice.setEvent(event);
+                                            notice.setPublishId(publisher.getObjectId());
+                                            notice.setIsRead(0);
+                                            notice.save(new SaveListener<String>() {
+                                                @Override
+                                                public void done(String s, BmobException e) {
+
+                                                }
+                                            });
+                                            ArrayList<String> eventList = user.getEvents();
+                                            if (eventList == null){
+                                                eventList = new ArrayList<String>();
+                                            }
+                                            if (!eventList.contains(id) || eventList.isEmpty()){
+                                                eventList.add(id);
+                                                user.setEvents(eventList);
+                                                user.update(new UpdateListener() {
+                                                    @Override
+                                                    public void done(BmobException e) {
+
+                                                    }
+                                                });
+                                            }
+
                                         }
                                     }
                                 });
+
                             }else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
                                 builder.setMessage("您已加入该活动")
