@@ -34,20 +34,14 @@
 
         <!-- <activity android:name=".activity.CheckWordShare" /> -->
         <activity android:name=".activity.PicWordShare" />
-        <activity android:name=".activity.ShareDetail" 
+        <activity android:name=".activity.ShareDetail" />
         <activity android:name=".activity.UserInformationActivity"></activity>
 
-        <!--<activity android:name="me.iwf.photopicker.PhotoPickerActivity"-->
-            <!--android:theme="@style/PhotoPickerTheme"-->
-            <!--android:configChanges="orientation|screenSize" />-->
-        <!--<activity android:name="me.iwf.photopicker.PhotoPagerActivity"-->
-            <!--android:theme="@style/PhotoPickerTheme" />-->
 
         <activity
             android:configChanges="orientation|screenSize"
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
 
-        <activity android:name=".activity.UserInformationActivity" />
         <activity android:name=".activity.NoticeActivity" />
         <activity android:name=".activity.PasswordModificationActivity" />
         <activity android:name=".activity.MyPublishedActivity" />
