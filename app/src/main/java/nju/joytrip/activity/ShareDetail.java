@@ -3,6 +3,7 @@ package nju.joytrip.activity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.QueryListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
+import nju.joytrip.adapter.GridAdapter;
+import nju.joytrip.customview.MyGridView;
 import nju.joytrip.entity.PWShare;
 import nju.joytrip.entity.User;
 
@@ -31,7 +34,6 @@ public class ShareDetail extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
         BmobQuery<PWShare> query = new BmobQuery<PWShare>();
         query.include("user");
-        query.addQueryKeys("user,content,username,userPic,nickName");
         query.getObject(id, new QueryListener<PWShare>() {
             @Override
             public void done(PWShare event, BmobException e) {
@@ -47,17 +49,22 @@ public class ShareDetail extends AppCompatActivity {
                     TextView createdTimeTv = (TextView)findViewById(R.id.share_detail_createTime);
                     createdTimeTv.setText(createdTime);
                     TextView userTv = (TextView)findViewById(R.id.share_detail_name);
+
                     if (nickname == null){
                         userTv.setText(username);
                     }else {
                         userTv.setText(nickname);
                     }
-                    ImageView iv = (ImageView)findViewById(R.id.share_detail_pic);
+                    ImageView iv = (ImageView)findViewById(R.id.share_detail_user_pic);
                     Glide.with(ShareDetail.this)
                             .asBitmap()
                             .load(userPic)
                             .apply(bitmapTransform(new CropCircleTransformation()))
                             .into(iv);
+                    MyGridView mgridView = (MyGridView)findViewById(R.id.share_dynamic_photo);
+                    mgridView.setNumColumns(3);
+                    GridAdapter mgridAdapter = new GridAdapter(ShareDetail.this,event.getPhotoList());
+                    mgridView.setAdapter(mgridAdapter);
                 }
             }
         });

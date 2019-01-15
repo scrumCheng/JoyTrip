@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.ShareDetail">
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -22,7 +22,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/share_detail_pic"
+                    android:id="@+id/share_detail_user_pic"
                     android:layout_width="52dp"
                     android:layout_height="52dp" />
 
@@ -43,59 +43,29 @@
                         style="@style/event_time"/>
 
                 </LinearLayout>
-
             </LinearLayout>
-
-            <!--<TextView-->
-                <!--android:id="@+id/share_detail_title"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--style="@style/event_title"/>-->
 
             <TextView
                 android:id="@+id/share_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/event_content"/>
+            <nju.joytrip.customview.MyGridView
+                android:id="@+id/share_dynamic_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"
+                android:columnWidth="65dp"
+                android:fadingEdge="none"
+                android:horizontalSpacing="2dp"
+                android:listSelector="#00000000"
+                android:numColumns="auto_fit"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:transcriptMode="alwaysScroll"
+                android:verticalSpacing="2dp" />
 
         </LinearLayout>
 
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4px"
-        android:background="#CCCCCC"></View>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="15dp"
-        android:gravity="bottom">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_centerHorizontal="true">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:text="加入活动"
-                android:background="@drawable/login_button_shape"
-                android:layout_marginRight="25dp"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:text="收藏活动"
-                android:background="@drawable/login_button_shape"
-                android:layout_marginLeft="25dp"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

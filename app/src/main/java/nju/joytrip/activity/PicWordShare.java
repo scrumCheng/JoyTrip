@@ -43,7 +43,6 @@ public class PicWordShare extends AppCompatActivity {
     private GridAdapter mgridAdapter;
     private EditText mtextView;
     private Button msubmit_btn;
-    private ArrayList<BmobFile> photoList = new ArrayList<BmobFile>();
     private final PWShare mshare = new PWShare();
 
 

@@ -91,6 +91,9 @@ public class ShareAdapter extends BaseAdapter {
             holder.write_date = (TextView) convertView.findViewById(R.id.write_date);
             holder.dynamic_text = (TextView) convertView.findViewById(R.id.dynamic_text);
             holder.dynamic_photo = (MyGridView) convertView.findViewById(R.id.dynamic_photo);
+            holder.dynamic_photo.setClickable(false);
+            holder.dynamic_photo.setPressed(false);
+            holder.dynamic_photo.setEnabled(false);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
