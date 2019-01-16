@@ -12,6 +12,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.liji.imagezoom.util.ImageZoom;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -70,11 +74,15 @@ public class ShareDetail extends AppCompatActivity {
                             .apply(bitmapTransform(new CropCircleTransformation()))
                             .into(miv);
                     mgridView = (MyGridView)findViewById(R.id.share_dynamic_photo);
+                    final List<String> l = new ArrayList<>();
+                    if(event.getPhotoList().size()!=0){
+                        l.addAll(event.getPhotoList());
+                    }
                     mgridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(ShareDetail.this,"图片预览敬请期待",Toast.LENGTH_LONG).show();
-
+                            String img = (String)parent.getItemAtPosition(position);
+                            ImageZoom.show(ShareDetail.this,img,l);
                         }
                     });
                     mgridView.setNumColumns(3);

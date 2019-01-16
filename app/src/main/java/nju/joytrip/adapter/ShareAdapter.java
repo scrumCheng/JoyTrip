@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.liji.imagezoom.util.ImageZoom;
 
 
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class ShareAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final PWShare shareItem = mDatas.get(position);
         ViewHolder holder = null;
         if(convertView==null){
             convertView = mInflater.inflate(mLayoutRes,null);
@@ -98,8 +100,10 @@ public class ShareAdapter extends BaseAdapter {
             holder.dynamic_photo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getmContext(),"图片预览敬请期待",Toast.LENGTH_LONG).show();
-
+                    String img = (String)parent.getItemAtPosition(position);
+                    List<String> l = new ArrayList<>();
+                    l.add(img);
+                    ImageZoom.show(getmContext(),img,l);
                 }
             });
             holder.dynamic_photo.setPressed(false);
@@ -108,7 +112,7 @@ public class ShareAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        PWShare shareItem = mDatas.get(position);
+
         final ViewHolder viewHolder = holder;
         Glide.with(mContext)
                 .asBitmap()

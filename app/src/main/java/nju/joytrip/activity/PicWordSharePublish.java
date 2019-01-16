@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Toast;
+
+import com.liji.imagezoom.util.ImageZoom;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -60,10 +63,10 @@ public class PicWordSharePublish extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String imgs = (String)parent.getItemAtPosition(position);
+                if(imagePaths.contains("add")){
+                    imagePaths.remove("add");
+                }
                 if("add".equals(imgs)){
-                    if(imagePaths.contains("add")){
-                        imagePaths.remove("add");
-                    }
                     MultiImageSelector.create(PicWordSharePublish.this)
                             .showCamera(true) // 是否显示相机. 默认为显示
                             .count(9) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
@@ -74,6 +77,9 @@ public class PicWordSharePublish extends AppCompatActivity {
                 }
                 else{
                     //预览图片
+                    String img = (String)parent.getItemAtPosition(position);
+                    List<String> l = new ArrayList<>();
+                    ImageZoom.show(PicWordSharePublish.this,img,imagePaths);
 
                 }
             }
