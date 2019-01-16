@@ -92,32 +92,32 @@ public class PicWordShare extends AppCompatActivity {
                 User user = BmobUser.getCurrentUser(User.class);
                 mshare.setContent(content);
                 mshare.setUser(user);
-                if(imagePaths.contains("add")){
+                if (imagePaths.contains("add")) {
                     imagePaths.remove("add");
                 }
                 final String[] filepaths = new String[imagePaths.size()];
-                for(int i=0;i<imagePaths.size();i++){
+                for (int i = 0; i < imagePaths.size(); i++) {
                     filepaths[i] = imagePaths.get(i);
                 }
-                BmobFile.uploadBatch(filepaths , new UploadBatchListener() {
+                BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
 
                     @Override
-                    public void onSuccess(List<BmobFile> files,List<String> urls) {
+                    public void onSuccess(List<BmobFile> files, List<String> urls) {
                         //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
                         //2、urls-上传文件的完整url地址
-                        if(urls.size()==filepaths.length){//如果数量相等，则代表文件全部上传完成
+                        if (urls.size() == filepaths.length) {//如果数量相等，则代表文件全部上传完成
                             ArrayList<String> s = new ArrayList<>();
-                           for(int i= 0;i<urls.size();i++){
-                               s.add(urls.get(i));
-                           }
-                           mshare.setPhotoList(s);
+                            for (int i = 0; i < urls.size(); i++) {
+                                s.add(urls.get(i));
+                            }
+                            mshare.setPhotoList(s);
                             mshare.save(new SaveListener<String>() {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e == null) {
                                         Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(PicWordShare.this,MainActivity.class);
-                                        intent.putExtra("id",1);
+                                        Intent intent = new Intent(PicWordShare.this, MainActivity.class);
+                                        intent.putExtra("id", 1);
                                         startActivity(intent);
                                         finish();
                                     } else {
@@ -130,32 +130,34 @@ public class PicWordShare extends AppCompatActivity {
 
                     @Override
                     public void onError(int statuscode, String errormsg) {
-                        Log.i("cuowu","错误码"+statuscode +",错误描述："+errormsg);
+                        Log.i("cuowu", "错误码" + statuscode + ",错误描述：" + errormsg);
                     }
 
                     @Override
-                    public void onProgress(int curIndex, int curPercent, int total,int totalPercent) {
+                    public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
                         //1、curIndex--表示当前第几个文件正在上传
                         //2、curPercent--表示当前上传文件的进度值（百分比）
                         //3、total--表示总的上传文件数
                         //4、totalPercent--表示总的上传进度（百分比）
                     }
                 });
-                mshare.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(PicWordShare.this,MainActivity.class);
-                            intent.putExtra("id",1);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                if (filepaths.length == 0) {
+                    mshare.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PicWordShare.this, MainActivity.class);
+                                intent.putExtra("id", 1);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
 
+                }
             }
         });
     }
