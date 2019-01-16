@@ -4,9 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -93,8 +95,15 @@ public class ShareAdapter extends BaseAdapter {
             holder.dynamic_text = (TextView) convertView.findViewById(R.id.dynamic_text);
             holder.dynamic_photo = (MyGridView) convertView.findViewById(R.id.dynamic_photo);
             holder.dynamic_photo.setClickable(false);
+            holder.dynamic_photo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getmContext(),"图片预览敬请期待",Toast.LENGTH_LONG).show();
+
+                }
+            });
             holder.dynamic_photo.setPressed(false);
-            holder.dynamic_photo.setEnabled(false);
+            holder.dynamic_photo.setEnabled(true);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
