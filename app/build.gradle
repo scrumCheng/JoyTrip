@@ -54,5 +54,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
 
     implementation 'com.github.lovetuzitong:MultiImageSelector:1.2'
+    implementation 'liji.library.dev:imagezoom:1.2.1'
 //    implementation 'me.iwf.photopicker:PhotoPicker:0.1.8'
 }
