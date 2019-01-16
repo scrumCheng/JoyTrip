@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -113,9 +114,14 @@ public class ShareAdapter extends BaseAdapter {
         viewHolder.write_name.setText(nickname);
         viewHolder.write_date.setText(shareItem.getCreatedAt());//时间
         viewHolder.dynamic_text.setText(shareItem.getContent());//内容
-        viewHolder.dynamic_photo.setNumColumns(3);
-        viewHolder.dynamic_photo.setAdapter(new GridAdapter(mContext,shareItem.getPhotoList()));
-
+        ArrayList<String> l = new ArrayList<>();
+        if(shareItem.getPhotoList()!=null) {
+            viewHolder.dynamic_photo.setNumColumns(3);
+            viewHolder.dynamic_photo.setAdapter(new GridAdapter(mContext, shareItem.getPhotoList()));
+        }
+        else{
+            viewHolder.dynamic_photo.setAdapter(new GridAdapter(mContext,l));
+        }
         return convertView;
     }
 

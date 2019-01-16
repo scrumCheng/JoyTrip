@@ -35,6 +35,12 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:maxLines="1"
+        style="@style/event_content"/>
+    <TextView
         android:id="@+id/dynamic_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

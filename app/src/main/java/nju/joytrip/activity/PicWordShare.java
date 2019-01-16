@@ -111,20 +111,7 @@ public class PicWordShare extends AppCompatActivity {
                                s.add(urls.get(i));
                            }
                            mshare.setPhotoList(s);
-                           mshare.save(new SaveListener<String>() {
-                               @Override
-                               public void done(String s, BmobException e) {
-                                   if (e == null) {
-                                       Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
-                                       Intent intent = new Intent(PicWordShare.this,MainActivity.class);
-                                       intent.putExtra("id",1);
-                                       startActivity(intent);
-                                       finish();
-                                   } else {
-                                       Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                   }
-                               }
-                           });
+
                         }
                     }
 
@@ -141,7 +128,20 @@ public class PicWordShare extends AppCompatActivity {
                         //4、totalPercent--表示总的上传进度（百分比）
                     }
                 });
-
+                mshare.save(new SaveListener<String>() {
+                    @Override
+                    public void done(String s, BmobException e) {
+                        if (e == null) {
+                            Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PicWordShare.this,MainActivity.class);
+                            intent.putExtra("id",1);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
             }
         });
