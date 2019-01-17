@@ -31,6 +31,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 import me.nereo.multi_image_selector.MultiImageSelector;
 import nju.joytrip.R;
+import nju.joytrip.Util.DynamicGranted;
 import nju.joytrip.adapter.GridAdapter;
 import nju.joytrip.customview.MyGridView;
 import nju.joytrip.entity.PWShare;
@@ -47,7 +48,7 @@ public class PicWordSharePublish extends AppCompatActivity {
     private EditText mtextView;
     private Button msubmit_btn;
     private final PWShare mshare = new PWShare();
-
+    private DynamicGranted mdynamicGranted = new DynamicGranted(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,30 +58,38 @@ public class PicWordSharePublish extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         mgridView = findViewById(R.id.pic_share_gridView);
-        mgridView.setNumColumns(3);
+
+
 
         mgridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String imgs = (String)parent.getItemAtPosition(position);
-                if(imagePaths.contains("add")){
-                    imagePaths.remove("add");
-                }
-                if("add".equals(imgs)){
-                    MultiImageSelector.create(PicWordSharePublish.this)
-                            .showCamera(true) // 是否显示相机. 默认为显示
-                            .count(9) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
-                            .multi() // 多选模式, 默认模式;
-                            .origin(imagePaths) // 默认已选择图片. 只有在选择模式为多选时有效
-                            .start(PicWordSharePublish.this, REQUEST_IMAGE);
 
+                if("add".equals(imgs)){
+                    removeAdd();
+                    mdynamicGranted.dynamicShare();
+                    if (mdynamicGranted.permissionGranted()){
+                        int size = imagePaths.size();
+                        //从相册获取图片
+                        MultiImageSelector.create(PicWordSharePublish.this)
+                                .showCamera(true) // 是否显示相机. 默认为显示
+                                .count(9) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
+                                .multi() // 多选模式, 默认模式;
+                                .origin(imagePaths) // 默认已选择图片. 只有在选择模式为多选时有效
+                                .start(PicWordSharePublish.this, REQUEST_IMAGE);
+                        if (imagePaths.size()==size){
+                            imagePaths.add("add");
+                        }
+                    }else {
+                        Toast.makeText(PicWordSharePublish.this, "该功能需要访问相应权限!" , Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else{
                     //预览图片
                     String img = (String)parent.getItemAtPosition(position);
                     List<String> l = new ArrayList<>();
                     ImageZoom.show(PicWordSharePublish.this,img,imagePaths);
-
                 }
             }
         });
@@ -98,9 +107,7 @@ public class PicWordSharePublish extends AppCompatActivity {
                 User user = BmobUser.getCurrentUser(User.class);
                 mshare.setContent(content);
                 mshare.setUser(user);
-                if (imagePaths.contains("add")) {
-                    imagePaths.remove("add");
-                }
+                removeAdd();
                 final String[] filepaths = new String[imagePaths.size()];
                 for (int i = 0; i < imagePaths.size(); i++) {
                     filepaths[i] = imagePaths.get(i);
@@ -121,7 +128,7 @@ public class PicWordSharePublish extends AppCompatActivity {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e == null) {
-                                        Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplication(), "分享成功", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
                                         intent.putExtra("id", 1);
                                         startActivity(intent);
@@ -152,7 +159,7 @@ public class PicWordSharePublish extends AppCompatActivity {
                         @Override
                         public void done(String s, BmobException e) {
                             if (e == null) {
-                                Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "分享成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
                                 intent.putExtra("id", 1);
                                 startActivity(intent);
@@ -167,6 +174,12 @@ public class PicWordSharePublish extends AppCompatActivity {
             }
         });
     }
+    private void removeAdd(){
+        if(imagePaths.contains("add")){
+            imagePaths.remove("add");
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -189,9 +202,7 @@ public class PicWordSharePublish extends AppCompatActivity {
         if (imagePaths!=null&& imagePaths.size()>0){
             imagePaths.clear();
         }
-        if(paths.contains("add")){
-            paths.remove("add");
-        }
+        removeAdd();
         paths.add("add");
         imagePaths.addAll(paths);
         mgridAdapter = new GridAdapter(PicWordSharePublish.this, imagePaths);
@@ -212,5 +223,4 @@ public class PicWordSharePublish extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

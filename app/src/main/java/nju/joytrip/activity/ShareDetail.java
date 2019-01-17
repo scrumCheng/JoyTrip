@@ -85,7 +85,6 @@ public class ShareDetail extends AppCompatActivity {
                             ImageZoom.show(ShareDetail.this,img,l);
                         }
                     });
-                    mgridView.setNumColumns(3);
                     GridAdapter mgridAdapter = new GridAdapter(ShareDetail.this,event.getPhotoList());
                     mgridView.setAdapter(mgridAdapter);
                 }
