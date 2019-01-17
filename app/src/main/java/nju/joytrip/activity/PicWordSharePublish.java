@@ -57,7 +57,7 @@ public class PicWordSharePublish extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         mgridView = findViewById(R.id.pic_share_gridView);
-        mgridView.setNumColumns(3);
+
 
         mgridView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -80,7 +80,6 @@ public class PicWordSharePublish extends AppCompatActivity {
                     String img = (String)parent.getItemAtPosition(position);
                     List<String> l = new ArrayList<>();
                     ImageZoom.show(PicWordSharePublish.this,img,imagePaths);
-
                 }
             }
         });
@@ -121,7 +120,7 @@ public class PicWordSharePublish extends AppCompatActivity {
                                 @Override
                                 public void done(String s, BmobException e) {
                                     if (e == null) {
-                                        Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplication(), "分享成功", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
                                         intent.putExtra("id", 1);
                                         startActivity(intent);
@@ -152,7 +151,7 @@ public class PicWordSharePublish extends AppCompatActivity {
                         @Override
                         public void done(String s, BmobException e) {
                             if (e == null) {
-                                Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplication(), "分享成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
                                 intent.putExtra("id", 1);
                                 startActivity(intent);
