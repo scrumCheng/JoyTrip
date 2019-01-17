@@ -3,13 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ImageView
-        android:focusable="false"
-        android:id="@+id/image_view"
+    <nju.joytrip.customview.SquareLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/add_photo" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:focusable="false"
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/add_photo" />
+    </nju.joytrip.customview.SquareLayout>
 
 </LinearLayout>
