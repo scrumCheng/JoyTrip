@@ -31,7 +31,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadBatchListener;
 import me.nereo.multi_image_selector.MultiImageSelector;
 import nju.joytrip.R;
-import nju.joytrip.Util.DynamicGranted;
+import nju.joytrip.util.DynamicGranted;
 import nju.joytrip.adapter.GridAdapter;
 import nju.joytrip.customview.MyGridView;
 import nju.joytrip.entity.PWShare;
