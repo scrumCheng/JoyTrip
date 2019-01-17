@@ -1,4 +1,4 @@
-package nju.joytrip.Util;
+package nju.joytrip.util;
 
 import android.Manifest;
 import android.app.Activity;
