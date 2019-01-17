@@ -1,14 +1,9 @@
 package nju.joytrip.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 
 import android.view.Menu;
@@ -17,36 +12,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 
-import nju.joytrip.activity.PicWordShare;
+import nju.joytrip.activity.PicWordSharePublish;
 import nju.joytrip.activity.ShareDetail;
 import nju.joytrip.adapter.ShareAdapter;
 import nju.joytrip.entity.PWShare;
 
-
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-
 public class UpdatesFragment extends Fragment {
-    private SimpleAdapter adapter;
     private ListView lv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,15 +41,13 @@ public class UpdatesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 PWShare h = (PWShare) parent.getItemAtPosition(position);
                 String eventId = h.getObjectId();
-                Log.i("1231545" ,"45345345");
                 Intent intent = new Intent(getActivity(), ShareDetail.class);
                 intent.putExtra("id", eventId);
                 startActivity(intent);
             }
         });
        init();
-//        loadData();
-        return view;
+       return view;
     }
 
     public void init(){
@@ -98,86 +77,16 @@ public class UpdatesFragment extends Fragment {
         Intent intent;
         switch(id){
             case R.id.menu_item_pw_share:
-                intent = new Intent(getActivity(), PicWordShare.class );
+                intent = new Intent(getActivity(), PicWordSharePublish.class );
                 startActivity(intent);
                 return true;
             case R.id.menu_item_v_share:
-                intent = new Intent(getActivity(), PicWordShare.class);
-                startActivity(intent);
+                Toast.makeText(getActivity(), "敬请期待", Toast.LENGTH_SHORT).show();
                 return true;
+//                intent = new Intent(getActivity(), PicWordSharePublish.class);
+//                startActivity(intent);
+//                return true;
         }
         return false;
     }
-
-    private void loadData(){
-        BmobQuery<PWShare> bmobQuery = new BmobQuery<PWShare>();
-        bmobQuery.include("user");
-        bmobQuery.order("-createdAt");
-        bmobQuery.findObjects(new FindListener<PWShare>() {
-            @Override
-            public void done(List<PWShare> list, BmobException e) {
-                if (e == null){
-                    final List<Map<String, String>> mapList = new ArrayList<>();
-                    for (PWShare event : list){
-                        String userPic = event.getUser().getUserPic();
-                        String username = event.getUser().getUsername();
-                        String nickname = event.getUser().getNickname();
-                        if (nickname == null){
-                                      nickname = username;
-                        }
-                        final HashMap mHashMap = new HashMap<>();
-                        mHashMap.put("username",nickname);
-                        Glide.with(UpdatesFragment.this)
-                                .asBitmap()
-                                .load(userPic)
-                                .apply(bitmapTransform(new CropCircleTransformation()))
-                                .into(new SimpleTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        mHashMap.put("userPic", resource);
-                                    }
-                                });
-                        mHashMap.put("content", event.getContent());
-                        mHashMap.put("time", event.getCreatedAt());
-                        mHashMap.put("id", event.getObjectId());
-                        mapList.add(mHashMap);
-
-                    }
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setListView(mapList);
-                        }
-                    }, 50);
-
-                }
-                else{
-                    Log.i("bmob","失败："+e.getMessage());
-                }
-            }
-
-        });
-    }
-    private void setListView(List<Map<String, String>> mapList){
-        adapter = new SimpleAdapter(getActivity(), mapList, R.layout.share_item,
-                new String[]{"userPic", "username",  "content", "time"},
-                new int[]{R.id.write_photo, R.id.write_name,  R.id.dynamic_text, R.id.write_date});
-        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Bitmap){
-                    ImageView iv = (ImageView)view;
-                    iv.setImageBitmap((Bitmap)data);
-                    return true;
-                }
-                return false;
-            }
-        });
-        lv.setAdapter(adapter);
-
-    }
-
-
-
 }

@@ -19,7 +19,7 @@ public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<String> mlistUrls;
     private LayoutInflater minflater;
-    private RoundedCorners mroundedCorners= new RoundedCorners(6);
+    private RoundedCorners mroundedCorners= new RoundedCorners(12);
     //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
     private RequestOptions moptions=RequestOptions.bitmapTransform(mroundedCorners).override(300, 300);
 
@@ -55,6 +55,7 @@ public class GridAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = minflater.inflate(R.layout.photo_item,parent,false);
             holder.image = convertView.findViewById(R.id.image_view);
+
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();

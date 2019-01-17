@@ -5,10 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.liji.imagezoom.util.ImageZoom;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
@@ -23,6 +30,11 @@ import nju.joytrip.entity.User;
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
 public class ShareDetail extends AppCompatActivity {
+    private TextView mcontentTv;
+    private TextView mcreatedTimeTv;
+    private TextView muserTv;
+    private ImageView miv;
+    private MyGridView mgridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,24 +56,35 @@ public class ShareDetail extends AppCompatActivity {
                     String username = user.getUsername();
                     String nickname = user.getNickname();
                     String userPic = user.getUserPic();
-                    TextView contentTv = (TextView)findViewById(R.id.share_detail_content);
-                    contentTv.setText(content);
-                    TextView createdTimeTv = (TextView)findViewById(R.id.share_detail_createTime);
-                    createdTimeTv.setText(createdTime);
-                    TextView userTv = (TextView)findViewById(R.id.share_detail_name);
+                    mcontentTv = (TextView)findViewById(R.id.share_detail_content);
+                    mcontentTv.setText(content);
+                    mcreatedTimeTv = (TextView)findViewById(R.id.share_detail_createTime);
+                    mcreatedTimeTv.setText(createdTime);
+                    muserTv = (TextView)findViewById(R.id.share_detail_name);
 
                     if (nickname == null){
-                        userTv.setText(username);
+                        muserTv.setText(username);
                     }else {
-                        userTv.setText(nickname);
+                        muserTv.setText(nickname);
                     }
-                    ImageView iv = (ImageView)findViewById(R.id.share_detail_user_pic);
+                    miv = (ImageView)findViewById(R.id.share_detail_user_pic);
                     Glide.with(ShareDetail.this)
                             .asBitmap()
                             .load(userPic)
                             .apply(bitmapTransform(new CropCircleTransformation()))
-                            .into(iv);
-                    MyGridView mgridView = (MyGridView)findViewById(R.id.share_dynamic_photo);
+                            .into(miv);
+                    mgridView = (MyGridView)findViewById(R.id.share_dynamic_photo);
+                    final List<String> l = new ArrayList<>();
+                    if(event.getPhotoList().size()!=0){
+                        l.addAll(event.getPhotoList());
+                    }
+                    mgridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String img = (String)parent.getItemAtPosition(position);
+                            ImageZoom.show(ShareDetail.this,img,l);
+                        }
+                    });
                     mgridView.setNumColumns(3);
                     GridAdapter mgridAdapter = new GridAdapter(ShareDetail.this,event.getPhotoList());
                     mgridView.setAdapter(mgridAdapter);

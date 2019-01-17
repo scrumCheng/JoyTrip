@@ -44,12 +44,18 @@
 
                 </LinearLayout>
             </LinearLayout>
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="1"
+                android:maxLines="1"
+                style="@style/event_content"/>
             <TextView
                 android:id="@+id/share_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/event_content"/>
+
             <nju.joytrip.customview.MyGridView
                 android:id="@+id/share_dynamic_photo"
                 android:layout_width="match_parent"
@@ -64,7 +70,6 @@
                 android:stretchMode="columnWidth"
                 android:transcriptMode="alwaysScroll"
                 android:verticalSpacing="2dp" />
-
         </LinearLayout>
 
     </LinearLayout>

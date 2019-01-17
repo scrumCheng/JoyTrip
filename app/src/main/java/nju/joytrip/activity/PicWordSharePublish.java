@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Toast;
+
+import com.liji.imagezoom.util.ImageZoom;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import nju.joytrip.entity.User;
 
 
 
-public class PicWordShare extends AppCompatActivity {
+public class PicWordSharePublish extends AppCompatActivity {
     private static final int REQUEST_IMAGE = 10;
     private static final int REQUEST_PREVIEW = 20;
     private ArrayList<String> imagePaths = new ArrayList<>();
@@ -60,26 +63,29 @@ public class PicWordShare extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String imgs = (String)parent.getItemAtPosition(position);
+                if(imagePaths.contains("add")){
+                    imagePaths.remove("add");
+                }
                 if("add".equals(imgs)){
-                    if(imagePaths.contains("add")){
-                        imagePaths.remove("add");
-                    }
-                    MultiImageSelector.create(PicWordShare.this)
+                    MultiImageSelector.create(PicWordSharePublish.this)
                             .showCamera(true) // 是否显示相机. 默认为显示
                             .count(9) // 最大选择图片数量, 默认为9. 只有在选择模式为多选时有效
                             .multi() // 多选模式, 默认模式;
                             .origin(imagePaths) // 默认已选择图片. 只有在选择模式为多选时有效
-                            .start(PicWordShare.this, REQUEST_IMAGE);
+                            .start(PicWordSharePublish.this, REQUEST_IMAGE);
 
                 }
                 else{
                     //预览图片
+                    String img = (String)parent.getItemAtPosition(position);
+                    List<String> l = new ArrayList<>();
+                    ImageZoom.show(PicWordSharePublish.this,img,imagePaths);
 
                 }
             }
         });
         imagePaths.add("add");
-        mgridAdapter = new GridAdapter(PicWordShare.this,imagePaths);
+        mgridAdapter = new GridAdapter(PicWordSharePublish.this,imagePaths);
         mgridView.setAdapter(mgridAdapter);
 
 
@@ -92,57 +98,72 @@ public class PicWordShare extends AppCompatActivity {
                 User user = BmobUser.getCurrentUser(User.class);
                 mshare.setContent(content);
                 mshare.setUser(user);
-                if(imagePaths.contains("add")){
+                if (imagePaths.contains("add")) {
                     imagePaths.remove("add");
                 }
                 final String[] filepaths = new String[imagePaths.size()];
-                for(int i=0;i<imagePaths.size();i++){
+                for (int i = 0; i < imagePaths.size(); i++) {
                     filepaths[i] = imagePaths.get(i);
                 }
-                BmobFile.uploadBatch(filepaths , new UploadBatchListener() {
+                BmobFile.uploadBatch(filepaths, new UploadBatchListener() {
 
                     @Override
-                    public void onSuccess(List<BmobFile> files,List<String> urls) {
+                    public void onSuccess(List<BmobFile> files, List<String> urls) {
                         //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
                         //2、urls-上传文件的完整url地址
-                        if(urls.size()==filepaths.length){//如果数量相等，则代表文件全部上传完成
+                        if (urls.size() == filepaths.length) {//如果数量相等，则代表文件全部上传完成
                             ArrayList<String> s = new ArrayList<>();
-                           for(int i= 0;i<urls.size();i++){
-                               s.add(urls.get(i));
-                           }
-                           mshare.setPhotoList(s);
-                           mshare.save(new SaveListener<String>() {
-                               @Override
-                               public void done(String s, BmobException e) {
-                                   if (e == null) {
-                                       Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
-                                       Intent intent = new Intent(PicWordShare.this,MainActivity.class);
-                                       intent.putExtra("id",1);
-                                       startActivity(intent);
-                                       finish();
-                                   } else {
-                                       Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                                   }
-                               }
-                           });
+                            for (int i = 0; i < urls.size(); i++) {
+                                s.add(urls.get(i));
+                            }
+                            mshare.setPhotoList(s);
+                            mshare.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
+                                        intent.putExtra("id", 1);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                     }
 
                     @Override
                     public void onError(int statuscode, String errormsg) {
-                        Log.i("cuowu","错误码"+statuscode +",错误描述："+errormsg);
+                        Log.i("cuowu", "错误码" + statuscode + ",错误描述：" + errormsg);
                     }
 
                     @Override
-                    public void onProgress(int curIndex, int curPercent, int total,int totalPercent) {
+                    public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
                         //1、curIndex--表示当前第几个文件正在上传
                         //2、curPercent--表示当前上传文件的进度值（百分比）
                         //3、total--表示总的上传文件数
                         //4、totalPercent--表示总的上传进度（百分比）
                     }
                 });
+                if (filepaths.length == 0) {
+                    mshare.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(getApplication(), "发布成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PicWordSharePublish.this, MainActivity.class);
+                                intent.putExtra("id", 1);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(getApplication(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
-
+                }
             }
         });
     }
@@ -155,7 +176,7 @@ public class PicWordShare extends AppCompatActivity {
                 //选择照片
             case REQUEST_IMAGE:
                 ArrayList<String> list = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
-                Log.d("PicWordShare","数量"+list.size());
+                Log.d("PicWordSharePublish","数量"+list.size());
                 loadAdpater(list);
                 break;
 //             预览照片
@@ -173,7 +194,7 @@ public class PicWordShare extends AppCompatActivity {
         }
         paths.add("add");
         imagePaths.addAll(paths);
-        mgridAdapter = new GridAdapter(PicWordShare.this, imagePaths);
+        mgridAdapter = new GridAdapter(PicWordSharePublish.this, imagePaths);
         mgridView.setAdapter(mgridAdapter);
         try{
             JSONArray obj = new JSONArray(imagePaths);
