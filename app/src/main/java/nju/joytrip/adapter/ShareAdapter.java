@@ -1,6 +1,7 @@
 package nju.joytrip.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,7 @@ public class ShareAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final PWShare shareItem = mDatas.get(position);
+        PWShare shareItem = mDatas.get(position);
         ViewHolder holder = null;
         if(convertView==null){
             convertView = mInflater.inflate(mLayoutRes,null);
@@ -97,17 +98,19 @@ public class ShareAdapter extends BaseAdapter {
             holder.dynamic_text = (TextView) convertView.findViewById(R.id.dynamic_text);
             holder.dynamic_photo = (MyGridView) convertView.findViewById(R.id.dynamic_photo);
             holder.dynamic_photo.setClickable(false);
+            holder.dynamic_photo.setPressed(false);
+            holder.dynamic_photo.setEnabled(true);
+            //图片预览
+
             holder.dynamic_photo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String img = (String)parent.getItemAtPosition(position);
                     List<String> l = new ArrayList<>();
+                    String img = (String)parent.getItemAtPosition(position);
                     l.add(img);
                     ImageZoom.show(getmContext(),img,l);
                 }
             });
-            holder.dynamic_photo.setPressed(false);
-            holder.dynamic_photo.setEnabled(true);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder) convertView.getTag();
@@ -129,7 +132,7 @@ public class ShareAdapter extends BaseAdapter {
         viewHolder.dynamic_text.setText(shareItem.getContent());//内容
         ArrayList<String> l = new ArrayList<>();
         if(shareItem.getPhotoList()!=null) {
-            viewHolder.dynamic_photo.setNumColumns(3);
+
             viewHolder.dynamic_photo.setAdapter(new GridAdapter(mContext, shareItem.getPhotoList()));
         }
         else{
