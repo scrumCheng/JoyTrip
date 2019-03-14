@@ -3,6 +3,7 @@ package nju.joytrip.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -32,6 +33,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -52,6 +54,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
+import nju.joytrip.entity.Comment;
 import nju.joytrip.entity.Event;
 import nju.joytrip.entity.Notice;
 import nju.joytrip.entity.User;
@@ -325,6 +328,47 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 popupWindow.dismiss();
             }
         });
+
+        //评论框内的发送按钮设置点击事件
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nInputContentText = inputComment.getText().toString().trim();
+
+                if (nInputContentText == null || "".equals(nInputContentText)) {
+                    //showToastMsgShort("请输入评论内容");
+                    return;
+                }
+                String id = getIntent().getStringExtra("id");
+                BmobQuery<Event> query = new BmobQuery<Event>();
+                query.getObject(id, new QueryListener<Event>() {
+                    @Override
+                    public void done(Event event, BmobException e) {
+                        if (e == null){
+                            User user = BmobUser.getCurrentUser(User.class);
+                            Comment comment = new Comment();
+                            comment.setEvent(event);
+                            comment.setUser(user);
+                            comment.setContent(nInputContentText);
+                            comment.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null){
+                                        Toast.makeText(getApplication(), "评论成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+
+                mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(),0);
+                popupWindow.dismiss();
+
+            }
+        });
+
     }
 
 }
