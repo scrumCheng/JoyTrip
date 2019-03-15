@@ -3,20 +3,14 @@ package nju.joytrip.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,7 +21,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -36,8 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +40,7 @@ import java.util.TimerTask;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
@@ -84,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        listView = (ListView)findViewById(R.id.comment_list);
         joinBtn = (Button)findViewById(R.id.join_btn);
         commentBtn = (Button)findViewById(R.id.comment_btn);
         joinBtn.setOnClickListener(this);
@@ -129,6 +122,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                             .load(userPic)
                             .apply(bitmapTransform(new CropCircleTransformation()))
                             .into(iv);
+                    loadComment(event);
                 }
             }
         });
@@ -245,8 +239,6 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                 showPopupcomment();
         }
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -368,6 +360,43 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+
+    }
+
+    private void loadComment(Event event){
+        BmobQuery<Comment> bmobQuery = new BmobQuery<Comment>();
+        bmobQuery.include("user, event");
+        bmobQuery.addWhereEqualTo("event", event);
+        bmobQuery.order("createdAt");
+        bmobQuery.findObjects(new FindListener<Comment>() {
+            @Override
+            public void done(List<Comment> list, BmobException e) {
+                if (e == null){
+                    List<Map<String, String>> mapList = new ArrayList<>();
+                    for (Comment comment : list){
+                        HashMap mHashMap = new HashMap<>();
+                        User user = comment.getUser();
+                        String username = user.getNickname();
+                        if (username == null){
+                            username = user.getUsername();
+                        }
+                        String content = "：" + comment.getContent();
+                        mHashMap.put("username",username);
+                        mHashMap.put("content", content);
+                        mapList.add(mHashMap);
+                    }
+                    setListView(mapList);
+
+                }
+            }
+        });
+    }
+
+    private void setListView(List<Map<String, String>> mapList){
+        adapter = new SimpleAdapter(DetailActivity.this, mapList, R.layout.comment_item,
+                new String[]{"username", "content"},
+                new int[]{R.id.comment_name, R.id.comment_content});
+        listView.setAdapter(adapter);
 
     }
 
