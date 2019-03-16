@@ -5,101 +5,128 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.DetailActivity">
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_weight="1"
-        android:layout_margin="20dp">
+        android:layout_margin="10dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/detail_pic"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp" />
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="10dp">
-                    <TextView
-                        android:id="@+id/detail_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/event_name"/>
-                    <TextView
-                        android:id="@+id/detail_createTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/event_time"/>
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/detail_pic"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="10dp">
+                        <TextView
+                            android:id="@+id/detail_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/event_name"/>
+                        <TextView
+                            android:id="@+id/detail_createTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/event_time"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_title"/>
+
+                <TextView
+                    android:id="@+id/detail_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/event_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="活动时间："
+                        style="@style/event_content"/>
+                    <TextView
+                        android:id="@+id/detail_beginTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/event_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="活动人数："
+                        style="@style/event_content"/>
+                    <TextView
+                        android:id="@+id/detail_num"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="@style/event_content"/>
+                    <TextView
+                        android:id="@+id/detail_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看"
+                        android:textSize="16sp"
+                        android:layout_gravity="right"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/comment_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="评论"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/detail_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/event_title"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#d8d8d8"
+            android:layout_marginTop="10dp"/>
 
-            <TextView
-                android:id="@+id/detail_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/event_content"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="活动时间："
-                    style="@style/event_content"/>
-                <TextView
-                    android:id="@+id/detail_beginTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/event_content"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="活动人数："
-                    style="@style/event_content"/>
-                <TextView
-                    android:id="@+id/detail_num"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="@style/event_content"/>
-                <TextView
-                    android:id="@+id/detail_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="查看"
-                    android:textSize="16sp"
-                    android:layout_gravity="right"/>
-            </LinearLayout>
+        <ListView
+            android:id="@+id/comment_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
 
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
