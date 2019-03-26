@@ -3,6 +3,7 @@
     android:shape="rectangle">
 
     <gradient android:angle="45" />
+    <solid android:color="@color/white" ></solid>
     <padding
         android:bottom="10dp"
         android:left="10dp"
@@ -11,6 +12,6 @@
     <corners android:radius="10dp" />
     <stroke
         android:width="3px"
-        android:color="#838B8B"/>
+        android:color="#838B8B" />
 
 </shape>
