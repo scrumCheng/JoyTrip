@@ -8,25 +8,29 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 
-import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
-
-public class GridAdapater extends BaseAdapter {
+public class GridAdapter extends BaseAdapter {
     private Context mContext;
     private ArrayList<String> mlistUrls;
     private LayoutInflater minflater;
+    private RoundedCorners mroundedCorners= new RoundedCorners(12);
+    //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+    private RequestOptions moptions=RequestOptions.bitmapTransform(mroundedCorners).override(300, 300);
 
-    public GridAdapater(Context context, ArrayList<String> listUrls){
+
+    public GridAdapter(Context context, ArrayList<String> listUrls){
+        mContext = context;
         this.mlistUrls = listUrls;
-        if(listUrls.size()==7){
+        if(listUrls.size()==10){
             listUrls.remove(listUrls.size()-1);
         }
-        minflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        minflater =  LayoutInflater.from(mContext);
     }
 
     @Override
@@ -46,24 +50,21 @@ public class GridAdapater extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         if(convertView==null){
             holder = new ViewHolder();
-            convertView = minflater.inflate(R.layout.pic_item,parent,false);
-            holder.image = (ImageView)convertView.findViewById(R.id.image);
+            convertView = minflater.inflate(R.layout.photo_item,parent,false);
+            holder.image = convertView.findViewById(R.id.image_view);
+
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
         final String path = mlistUrls.get(position);
-        if(path.equals("paizhao")){
-            holder.image.setImageResource(R.mipmap.default_user);
+        if(path.equals("add")){
+          holder.image.setImageResource(R.drawable.add_photo);
         }else {
-            Glide.with(mContext)
-                    .asBitmap()
-                    .load(path)
-                    .apply(bitmapTransform(new CropCircleTransformation()))
-                    .into(holder.image);
+            Glide.with(mContext).load(path).apply(moptions).into(holder.image);
         }
         return convertView;
     }

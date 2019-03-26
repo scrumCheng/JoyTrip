@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.PicWordShare">
+    tools:context=".activity.PicWordSharePublish">
 
 
 
@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/share_content_text"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/share_content"
             android:background="@drawable/edit_shape"
-            android:layout_margin="10dp"
+            android:layout_margin="3dp"
             android:scrollbars="vertical"
             android:gravity="top"
             android:singleLine="false"
@@ -30,16 +31,16 @@
             android:maxLines="3"
             android:lineSpacingExtra="3dp" />
 
-        <GridView
+        <nju.joytrip.customview.MyGridView
             android:id="@+id/pic_share_gridView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:cacheColorHint="#00000000"
-            android:columnWidth="65dp"
+            android:columnWidth="@dimen/gridview_column_width"
             android:fadingEdge="none"
             android:horizontalSpacing="2dp"
             android:listSelector="#00000000"
-            android:numColumns="auto_fit"
+            android:numColumns="3"
             android:scrollbars="none"
             android:stretchMode="columnWidth"
             android:transcriptMode="alwaysScroll"
