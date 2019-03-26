@@ -130,4 +130,9 @@ public class MineFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserInfo();
+    }
 }
