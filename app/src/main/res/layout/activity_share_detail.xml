@@ -70,7 +70,25 @@
                 android:stretchMode="columnWidth"
                 android:transcriptMode="alwaysScroll"
                 android:verticalSpacing="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/comment_btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="评论"/>
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/comment_list2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+
         </LinearLayout>
+
 
     </LinearLayout>
 </LinearLayout>
