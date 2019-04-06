@@ -27,6 +27,8 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
 import nju.joytrip.activity.EventPublish;
+import nju.joytrip.activity.FriendActivity;
+import nju.joytrip.activity.MyCollectionActivity;
 import nju.joytrip.activity.MyJoinedActivity;
 import nju.joytrip.activity.MyPublishedActivity;
 import nju.joytrip.activity.NoticeActivity;
@@ -102,6 +104,22 @@ public class MineFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        myCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyCollectionActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        myFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FriendActivity.class);
                 startActivity(intent);
             }
         });

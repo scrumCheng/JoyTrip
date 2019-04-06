@@ -44,7 +44,8 @@
         <activity android:name=".activity.PasswordModificationActivity" />
         <activity android:name=".activity.MyPublishedActivity" />
         <activity android:name=".activity.MyJoinedActivity" />
-        <activity android:name=".activity.FriendActivity"></activity>
+        <activity android:name=".activity.FriendActivity" />
+        <activity android:name=".activity.MyCollectionActivity"></activity>
     </application>
 
 </manifest>
