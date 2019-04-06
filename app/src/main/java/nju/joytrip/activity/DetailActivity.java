@@ -1,42 +1,52 @@
 package nju.joytrip.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.QueryListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import nju.joytrip.R;
+import nju.joytrip.entity.Comment;
 import nju.joytrip.entity.Event;
 import nju.joytrip.entity.Notice;
 import nju.joytrip.entity.User;
@@ -46,9 +56,19 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button joinBtn;
+    private Button commentBtn;
     private TextView showDetailTv;
     private SimpleAdapter adapter;
     private ListView listView;
+
+    private PopupWindow popupWindow;
+    private View popupView = null;
+    private EditText inputComment;
+    private String nInputContentText;
+    private TextView btn_submit;
+    private RelativeLayout rl_input_container;
+    private InputMethodManager mInputManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +76,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_detail);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        listView = (ListView)findViewById(R.id.comment_list);
         joinBtn = (Button)findViewById(R.id.join_btn);
+        commentBtn = (Button)findViewById(R.id.comment_btn);
         joinBtn.setOnClickListener(this);
+        commentBtn.setOnClickListener(this);
         showDetailTv = (TextView)findViewById(R.id.detail_btn);
         showDetailTv.setOnClickListener(this);
         String id = getIntent().getStringExtra("id");
@@ -99,6 +122,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                             .load(userPic)
                             .apply(bitmapTransform(new CropCircleTransformation()))
                             .into(iv);
+                    loadComment(event);
                 }
             }
         });
@@ -210,10 +234,11 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
                        }, 1000);
                    }
                });
+               break;
+            case R.id.comment_btn:
+                showPopupcomment();
         }
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -231,6 +256,148 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             str[i] = list.get(i);
         }
         return str;
+    }
+
+    @SuppressLint("WrongConstant")
+    private void showPopupcomment(){
+        if (popupView == null){
+            //加载评论框的资源文件
+            popupView = LayoutInflater.from(this).inflate(R.layout.comment_popupwindow, null);
+        }
+        inputComment = (EditText) popupView.findViewById(R.id.et_discuss);
+        btn_submit = (Button) popupView.findViewById(R.id.btn_confirm);
+        rl_input_container = (RelativeLayout)popupView.findViewById(R.id.rl_input_container);
+        //利用Timer这个Api设置延迟显示软键盘，这里时间为200毫秒
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            public void run() {
+                mInputManager = (InputMethodManager)inputComment.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                mInputManager.showSoftInput(inputComment, 0);
+            }
+        }, 200);
+        if (popupWindow == null){
+            popupWindow = new PopupWindow(popupView, RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT, false);
+        }
+        //popupWindow的常规设置，设置点击外部事件，背景色
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE)
+                    popupWindow.dismiss();
+                return false;
+            }
+        });
+
+        // 设置弹出窗体需要软键盘，放在setSoftInputMode之前
+        popupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        // 再设置模式，和Activity的一样，覆盖，调整大小。
+        popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //设置popupwindow的显示位置，这里应该是显示在底部，即Bottom
+        popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
+        popupWindow.update();
+
+        //设置监听
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            // 在dismiss中恢复透明度
+            @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
+            public void onDismiss() {
+                mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0); //强制隐藏键盘
+            }
+        });
+
+        //外部点击事件
+        rl_input_container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(), 0); //强制隐藏键盘
+                popupWindow.dismiss();
+            }
+        });
+
+        //评论框内的发送按钮设置点击事件
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nInputContentText = inputComment.getText().toString().trim();
+
+                if (nInputContentText == null || "".equals(nInputContentText)) {
+                    //showToastMsgShort("请输入评论内容");
+                    return;
+                }
+                String id = getIntent().getStringExtra("id");
+                BmobQuery<Event> query = new BmobQuery<Event>();
+                query.getObject(id, new QueryListener<Event>() {
+                    @Override
+                    public void done(Event event, BmobException e) {
+                        if (e == null){
+                            User user = BmobUser.getCurrentUser(User.class);
+                            Comment comment = new Comment();
+                            comment.setEvent(event);
+                            comment.setUser(user);
+                            comment.setContent(nInputContentText);
+                            comment.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e == null){
+                                        Toast.makeText(getApplication(), "评论成功", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+
+                mInputManager.hideSoftInputFromWindow(inputComment.getWindowToken(),0);
+                popupWindow.dismiss();
+
+            }
+        });
+
+    }
+
+    private void loadComment(Event event){
+        BmobQuery<Comment> bmobQuery = new BmobQuery<Comment>();
+        bmobQuery.include("user, event");
+        bmobQuery.addWhereEqualTo("event", event);
+        bmobQuery.order("createdAt");
+        bmobQuery.findObjects(new FindListener<Comment>() {
+            @Override
+            public void done(List<Comment> list, BmobException e) {
+                if (e == null){
+                    List<Map<String, String>> mapList = new ArrayList<>();
+                    for (Comment comment : list){
+                        HashMap mHashMap = new HashMap<>();
+                        User user = comment.getUser();
+                        String username = user.getNickname();
+                        if (username == null){
+                            username = user.getUsername();
+                        }
+                        String content = "：" + comment.getContent();
+                        mHashMap.put("username",username);
+                        mHashMap.put("content", content);
+                        mapList.add(mHashMap);
+                    }
+                    setListView(mapList);
+
+                }
+            }
+        });
+    }
+
+    private void setListView(List<Map<String, String>> mapList){
+        adapter = new SimpleAdapter(DetailActivity.this, mapList, R.layout.comment_item,
+                new String[]{"username", "content"},
+                new int[]{R.id.comment_name, R.id.comment_content});
+        listView.setAdapter(adapter);
+
     }
 
 }

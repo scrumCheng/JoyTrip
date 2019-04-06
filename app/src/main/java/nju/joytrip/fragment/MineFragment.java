@@ -47,6 +47,7 @@ public class MineFragment extends Fragment {
     private ImageView imageView_portrait;
     private TextView textView_nickName;
     private RelativeLayout myPublished, myFollowed, myNotification;
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +56,7 @@ public class MineFragment extends Fragment {
 
         //初始化Bmob
         Bmob.initialize(getContext(), "f6fbdb11a6a945a3382bf9225de95646");
-        User user = BmobUser.getCurrentUser(User.class);
+        user = BmobUser.getCurrentUser(User.class);
 
         imageView_portraitBackgroud = view.findViewById(R.id.mine_portrait_background);
         imageView_portrait = view.findViewById(R.id.mine_portrait);
@@ -64,21 +65,12 @@ public class MineFragment extends Fragment {
         myFollowed = view.findViewById(R.id.mine_myfollowed);
         myNotification = view.findViewById(R.id.mine_mynotification);
 
+        loadUserInfo();
+
         Glide.with(this)
                 .load(R.mipmap.background)
                 .apply(bitmapTransform(new BlurTransformation(3, 4)))
                 .into(imageView_portraitBackgroud);
-
-        Glide.with(this)
-                .load(user.getUserPic())
-                .apply(bitmapTransform(new CropCircleTransformation()))
-                .into(imageView_portrait);
-
-        if (user.getNickname() != null) {
-            textView_nickName.setText(user.getNickname());
-        } else {
-            textView_nickName.setText(user.getUsername());
-        }
 
         imageView_portrait.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,5 +105,34 @@ public class MineFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void loadUserInfo(){
+        Glide.with(this)
+                .load(user.getUserPic())
+                .apply(bitmapTransform(new CropCircleTransformation()))
+                .into(imageView_portrait);
+
+        if (user.getNickname() != null) {
+            textView_nickName.setText(user.getNickname());
+        } else {
+            textView_nickName.setText(user.getUsername());
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden){
+
+        }else {
+           loadUserInfo();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserInfo();
     }
 }
