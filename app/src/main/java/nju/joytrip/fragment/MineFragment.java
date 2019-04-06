@@ -46,7 +46,7 @@ public class MineFragment extends Fragment {
     private ImageView imageView_portraitBackgroud;
     private ImageView imageView_portrait;
     private TextView textView_nickName;
-    private RelativeLayout myPublished, myFollowed, myNotification;
+    private RelativeLayout myPublished, myFollowed, myNotification, myCollection, myFriends;
     private User user;
 
     @Override
@@ -64,6 +64,8 @@ public class MineFragment extends Fragment {
         myPublished = view.findViewById(R.id.mine_mypublished);
         myFollowed = view.findViewById(R.id.mine_myfollowed);
         myNotification = view.findViewById(R.id.mine_mynotification);
+        myCollection = view.findViewById(R.id.mine_mycollection);
+        myFriends = view.findViewById(R.id.mine_myfriends);
 
         loadUserInfo();
 
