@@ -11,6 +11,7 @@
 
     <string name="mine_fragment_mypublished">我的发布</string>
     <string name="mine_fragment_myfollowed">我的加入</string>
+    <string name="mine_fragment_mycollection">我的收藏</string>
     <string name="mine_fragment_mynotification">通知</string>
     <string name="pic_word_share">图文分享</string>
     <string name="video_share">视频分享</string>

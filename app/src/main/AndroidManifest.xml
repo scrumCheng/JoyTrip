@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,23 +29,22 @@
         <activity android:name=".activity.EventPublish" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.DetailActivity"
+        <activity
+            android:name=".activity.DetailActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- <activity android:name=".activity.CheckWordShare" /> -->
         <activity android:name=".activity.PicWordSharePublish" />
         <activity android:name=".activity.ShareDetail" />
-        <activity android:name=".activity.UserInformationActivity"></activity>
-
-
+        <activity android:name=".activity.UserInformationActivity" />
         <activity
-            android:configChanges="orientation|screenSize"
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
-
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".activity.NoticeActivity" />
         <activity android:name=".activity.PasswordModificationActivity" />
         <activity android:name=".activity.MyPublishedActivity" />
-        <activity android:name=".activity.MyJoinedActivity"></activity>
+        <activity android:name=".activity.MyJoinedActivity" />
+        <activity android:name=".activity.FriendActivity"></activity>
     </application>
 
 </manifest>
