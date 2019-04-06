@@ -115,6 +115,39 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/mine_mycollection"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/colorMineFragmentPureWhite"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:src="@mipmap/mycollection" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="80dp"
+                        android:text="@string/mine_fragment_mycollection"
+                        android:textSize="25sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/right_arrow" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/mine_mynotification"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -135,6 +168,32 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="80dp"
                         android:text="@string/mine_fragment_mynotification"
+                        android:textSize="25sp" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/right_arrow" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/mine_myfriends"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorMineFragmentPureWhite"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="80dp"
+                        android:text="@string/mine_fragment_myfriends"
                         android:textSize="25sp" />
 
                     <ImageView
